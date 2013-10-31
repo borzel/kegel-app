@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace kegel_server
 {
-    [Serializable]
-    public class User
+    public static class Server
     {
-        public string Name { get; set; }
-        public string Nickname { get; set; }
+        public static ServerData Data { get; set; }
     }
 }

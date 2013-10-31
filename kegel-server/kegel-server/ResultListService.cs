@@ -14,7 +14,7 @@ namespace kegel_server
         {
             List<Result> ergebnisse = new List<Result>();
 
-            foreach (User user in ServerData.ListOfUser)
+            foreach (User user in Server.Data.ListOfUser)
             {
                 ergebnisse.Add(new Result{ Spieler = user});
             }

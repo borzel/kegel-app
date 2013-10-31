@@ -17,7 +17,7 @@ namespace kegel_server
         {
             UserRegisterResponse response = new UserRegisterResponse();
 
-            if (ServerData.ListOfUser.Any(x => x.Name == request.Name || x.Nickname == request.NickName))
+            if (Server.Data.ListOfUser.Any(x => x.Name == request.Name || x.Nickname == request.NickName))
             {
                 response.Added = false;
                 response.ErrorMessage = "Spieler exisitert bereits";
@@ -27,7 +27,7 @@ namespace kegel_server
                 User u = new User();
                 u.Name = request.Name;
                 u.Nickname = request.NickName;
-                ServerData.ListOfUser.Add(u);
+                Server.Data.ListOfUser.Add(u);
 
                 response.Added = true;
             }
