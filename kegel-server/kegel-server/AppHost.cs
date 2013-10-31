@@ -11,10 +11,8 @@ namespace kegel_server
     public class AppHost : AppHostHttpListenerBase
     {
         public AppHost()
-            : base("HttpListener Self-Host", typeof(HelloService).Assembly) { }
+            : base("HttpListener Self-Host", typeof(UserRegisterService).Assembly) { }
 
-        public override void Configure(Funq.Container container)
-        {
-        }
-    } 
+        public override void Configure(Funq.Container container) { }
+    }
 }

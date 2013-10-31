@@ -14,12 +14,10 @@ namespace kegel_server
         {
             List<Result> ergebnisse = new List<Result>();
 
-            
-            ergebnisse.Add(new Result { Platz = 1, Spieler = new User { Name = "Fritz Freudenberg", Nickname = "FRF" } });
-            ergebnisse.Add(new Result { Platz = 2, Spieler = new User { Name = "Bertram Gunert", Nickname = "GUB" } });
-            ergebnisse.Add(new Result { Platz = 3, Spieler = new User { Name = "Natascha Neubert", Nickname = "NEN" } });
-            ergebnisse.Add(new Result { Platz = 4, Spieler = new User { Name = "Ulla Düngler", Nickname = "DUU" } });
-
+            foreach (User user in ServerData.ListOfUser)
+            {
+                ergebnisse.Add(new Result{ Spieler = user});
+            }
 
             return new ResultListResponse()
                 {

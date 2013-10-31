@@ -7,9 +7,10 @@ using ServiceStack.ServiceHost;
 
 namespace kegel_server
 {
-    [Route("/hello/{Name}")]
-    public class HelloRequest
+    [Route("/register/{NickName}/{Name}")]
+    public class UserRegisterRequest
     {
+        public string NickName { get; set; }
         public string Name { get; set; }
     }
 }

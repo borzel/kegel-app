@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace kegel_server
 {
-    public class HelloResponse
+    public class UserRegisterResponse
     {
-        public string Message { get; set; }
-        public string Status { get; set; }
+        public bool Added { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

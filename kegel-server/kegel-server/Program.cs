@@ -10,6 +10,8 @@ namespace kegel_server
     {
         static void Main(string[] args)
         {
+            ServerData.Load();
+
             var listeningOn = args.Length == 0 ? "http://*:80/" : args[0];
             var appHost = new AppHost();
             appHost.Init();
@@ -19,6 +21,8 @@ namespace kegel_server
                 DateTime.Now, listeningOn);
 
             Console.ReadKey();
+
+            ServerData.Save();
         }
     }
 }
