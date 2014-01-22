@@ -1,0 +1,10 @@
+﻿@Master['Master']
+
+@Section['Content']
+	<h1>Ergebnisse</h1>
+	
+	@Each
+		Platz @Current.Platz: @!Current.Spieler.Name<br/>
+	@EndEach
+	
+@EndSection

@@ -1,0 +1,23 @@
+﻿@Master['Master']
+
+@Section['Content']
+	<h1>Mitspieler</h1>
+		<form action="/user/register" method="POST">
+			<fieldset>
+				<legend><font color=green>Neuer Mitspieler</font></legend>
+				<input type="text" name="username"/>
+				<input type="submit" value="Hinzuf&uuml;gen"/>
+			</fieldset>
+		</form>
+		<fieldset>
+			<legend><font color=green>Mitspieler</font></legend>
+			@Each
+				<form action="/user/delete" method="POST">
+					<input type="hidden" name="id" value="@Current.Id"/>
+					<input type="submit" value="X"/>
+					@!Current.Name
+				</form>
+			@EndEach
+		</fieldset>
+			
+@EndSection

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using kegel_server.Dto;
+
 namespace kegel_server
 {
     public static class Server

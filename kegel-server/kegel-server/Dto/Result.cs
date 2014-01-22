@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ServiceStack.ServiceHost;
 
-namespace kegel_server
+namespace kegel_server.Dto
 {
-    [Route("/resultlist")]
-    public class ResultListRequest
+    public class Result
     {
+        public User Spieler { get; set;}
+        public int Platz { get; set; }
     }
 }

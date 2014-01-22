@@ -3,6 +3,8 @@ using System.IO;
 using System.Threading;
 using System.Xml.Serialization;
 
+using kegel_server.Dto;
+
 namespace kegel_server
 {
     class ServerDataHelper
@@ -22,16 +24,6 @@ namespace kegel_server
 
                 Console.WriteLine("Serverdaten aus \"{0}\" geladen", dataFileName);
             }
-#if DEBUG
-            // Testdaten
-            else
-            {
-                data.ListOfUser.Add(new User { Name = "Fritz Freudenberg", Nickname = "FRF" });
-                data.ListOfUser.Add(new User { Name = "Bertram Gunert", Nickname = "GUB" });
-                data.ListOfUser.Add(new User { Name = "Natascha Neubert", Nickname = "NEN" });
-                data.ListOfUser.Add(new User { Name = "Ulla Düngler", Nickname = "DUU" });
-            }
-#endif
 
             Server.Data = data;
         }

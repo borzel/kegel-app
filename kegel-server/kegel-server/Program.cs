@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Nancy.Hosting.Self;
+
 namespace kegel_server
 {
     class Program
@@ -13,12 +15,11 @@ namespace kegel_server
 
         static void Main(string[] args)
         {
-            var listeningOn = args.Length == 0 ? "http://*:80/" : args[0];
-            var appHost = new AppHost();
-            appHost.Init();
-            appHost.Start(listeningOn);
+        	Uri serverUri = new Uri("http://localhost:80");
+        	var nancyHost = new NancyHost(serverUri);
+        	nancyHost.Start();
 
-            Console.WriteLine("{0} gestartet um {1} auf {2}", AppName, DateTime.Now, listeningOn);
+            Console.WriteLine("{0} gestartet um {1} auf {2}", AppName, DateTime.Now, serverUri);
             ServerDataHelper.Load();
             PrintHelp();
 
