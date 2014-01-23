@@ -18,7 +18,7 @@ namespace kegel_server.Module
 			{
 				List<Result> ergebnisse = new List<Result>();
 
-				foreach (User user in Server.Data.ListOfUser)
+				foreach (UserData user in Server.Data.ListOfUser)
 				{
 					ergebnisse.Add(new Result{ Spieler = user});
 				}

@@ -11,5 +11,6 @@ namespace kegel_server
     public static class Server
     {
         public static ServerData Data { get; set; }
+        public static ISpiel CurrentSpiel {get; set;}
     }
 }

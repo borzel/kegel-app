@@ -68,7 +68,14 @@
   <ItemGroup>
     <Compile Include="Dto\Result.cs" />
     <Compile Include="Dto\ServerData.cs" />
-    <Compile Include="Dto\User.cs" />
+    <Compile Include="Dto\SpielData.cs" />
+    <Compile Include="Dto\SpielzugData.cs" />
+    <Compile Include="Dto\UserData.cs" />
+    <Compile Include="Dto\WurfData.cs" />
+    <Compile Include="Games\HausnummerVor.cs" />
+    <Compile Include="ISpiel.cs" />
+    <Compile Include="Module\DebugModule.cs" />
+    <Compile Include="Module\GameModule.cs" />
     <Compile Include="Module\MainModule.cs" />
     <Compile Include="Module\ResultModule.cs" />
     <Compile Include="Module\UserModule.cs" />
@@ -96,6 +103,7 @@
   <ItemGroup>
     <Folder Include="Module" />
     <Folder Include="Dto" />
+    <Folder Include="Games" />
     <Folder Include="Views" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

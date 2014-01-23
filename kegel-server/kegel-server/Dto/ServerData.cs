@@ -11,6 +11,7 @@ namespace kegel_server.Dto
     [Serializable]
     public class ServerData
     {
-        public List<User> ListOfUser = new List<User>();
+        public List<UserData> ListOfUser = new List<UserData>();
+        public List<SpielData> ListOfSpiele = new List<SpielData>();
     }
 }

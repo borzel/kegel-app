@@ -8,7 +8,7 @@ namespace kegel_server.Dto
 {
     public class Result
     {
-        public User Spieler { get; set;}
+        public UserData Spieler { get; set;}
         public int Platz { get; set; }
     }
 }

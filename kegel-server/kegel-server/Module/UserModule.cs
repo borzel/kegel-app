@@ -24,7 +24,7 @@ namespace kegel_server.Module
 			{
 				Guid userId = Request.Form["id"];
 				
-				User userToDelete = Server.Data.ListOfUser.Where(x => x.Id == userId).FirstOrDefault();
+				UserData userToDelete = Server.Data.ListOfUser.Where(x => x.Id == userId).FirstOrDefault();
 				if (userToDelete != null)
 				{
 					Server.Data.ListOfUser.Remove(userToDelete);
@@ -46,7 +46,7 @@ namespace kegel_server.Module
 				}
 				else
 				{
-					User u = new User();
+					UserData u = new UserData();
 					u.Name = newUsername;
 					u.Id = Guid.NewGuid();
 					Server.Data.ListOfUser.Add(u);

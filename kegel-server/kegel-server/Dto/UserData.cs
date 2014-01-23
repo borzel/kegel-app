@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace kegel_server.Dto
 {
 	[Serializable]
-	public class User
+	public class UserData
 	{
 		public Guid Id {get; set;}
 		public string Name { get; set; }
