@@ -73,6 +73,7 @@
     <Compile Include="Dto\UserData.cs" />
     <Compile Include="Dto\WurfData.cs" />
     <Compile Include="Games\HausnummerVor.cs" />
+    <Compile Include="Games\HausnummerZurueck.cs" />
     <Compile Include="ISpiel.cs" />
     <Compile Include="Module\DebugModule.cs" />
     <Compile Include="Module\GameModule.cs" />
@@ -87,6 +88,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Views\game.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Views\Index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

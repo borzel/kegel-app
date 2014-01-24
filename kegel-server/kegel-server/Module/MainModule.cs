@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Nancy;
 
 namespace kegel_server.Module
@@ -9,8 +10,25 @@ namespace kegel_server.Module
 		{
 			Get["/"] = _ =>
 			{
-				return View["index.html", Server.Data.ListOfUser.Count];
+				MainModel model = new MainModel();
+				model.Info = new List<MainInfo>();
+				model.Info.Add(new MainInfo{ Key = "Spieler", Value = Server.Data.ListOfUser.Count.ToString()});
+				model.Info.Add(new MainInfo{ Key = "Aktuelles Spiel", Value = Server.CurrentSpiel==null ? "Zur Zeit läuft kein Spiel": Server.CurrentSpiel.GetName()});
+				model.Info.Add(new MainInfo{ Key = "Gespielte Spiele", Value = Server.Data.ListOfSpiele.Count.ToString()});
+				
+				return View["index.html", model];
 			};
 		}
+	}
+	
+	public class MainModel
+	{
+		public List<MainInfo> Info {get; set;}
+	}
+	
+	public class MainInfo
+	{
+		public string Key{get; set;}
+		public string Value{get; set;}
 	}
 }

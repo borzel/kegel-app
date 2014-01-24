@@ -1,6 +1,10 @@
 ﻿@Master['Master']
 
 @Section['Content']
-<h1>Kegel-Server</h1>
-Anzahl Mitspieler: @Model
+	<h1>Kegel-Server</h1>
+	<ul>
+		@Each.Info
+			<li><b>@!Current.Key:</b> @!Current.Value</li>
+		@EndEach
+	</ul>
 @EndSection

@@ -17,14 +17,12 @@ namespace kegel_server.Dto
 	[Serializable]
 	public class SpielData
 	{
-		public SpielData(List<UserData> spieler)
+		public SpielData()
 		{
-			_spieler = spieler;
 			_spielzuege = new List<SpielzugData>();
 		}
 		
-		private List<UserData> _spieler;
-		public List<UserData> Spieler { get{ return _spieler;}}
+		public List<UserData> Spieler { get; set; }
 		
 		private List<SpielzugData> _spielzuege;
 		public List<SpielzugData> Spielzuege {get {return _spielzuege;}}

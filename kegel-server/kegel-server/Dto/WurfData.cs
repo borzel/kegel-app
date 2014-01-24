@@ -23,7 +23,7 @@ namespace kegel_server.Dto
 			get {return _punktzahl;}
 			set
 			{
-				if (value >= 9)
+				if (value <= 9)
 					_punktzahl = value;
 				else
 					throw new FormatException("Punktzahl muss zwischen NULL und 9 liegen");

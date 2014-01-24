@@ -1,22 +1,23 @@
 ﻿/*
  * Created by SharpDevelop.
  * User: alex
- * Date: 23.01.2014
- * Time: 22:56
+ * Date: 24.01.2014
+ * Time: 01:02
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using kegel_server.Dto;
 
 namespace kegel_server.Games
 {
 	/// <summary>
-	/// Description of HausnummerVor.
+	/// Description of HausnummerZurueck.
 	/// </summary>
-	public class HausnummerVor : ISpiel
+	public class HausnummerZurueck : ISpiel
 	{
 		SpielData data;
 		UserData aktuellerSpieler;
@@ -24,12 +25,12 @@ namespace kegel_server.Games
 		
 		public string GetName()
 		{
-			return "Hausnummer (vorwärts)";
+			return "Hausnummer (rückwärts)";
 		}
 		
 		public string GetErklaerung()
 		{
-			return "Jeder führt einen Spielzug mit 4 Würfen durch. Jeder Wurf entspricht der Stelle einer vierstelligen Zahl, beginnend mit der 1. Stelle. Die Würfe 0, 8, 1, 5 ergeben die Zahl 0815, also die Punktzahl 815.";
+			return "Jeder führt einen Spielzug mit 4 Würfen durch. Jeder Wurf entspricht der Stelle einer vierstelligen Zahl, beginnend mit der letzten Stelle. Die Würfe 4, 7, 1, 1 ergeben die Zahl 1174, also die Punktzahl 1174.";
 		}
 		
 		public void Start(List<UserData> listOfUser)
@@ -57,9 +58,11 @@ namespace kegel_server.Games
 			if (aktuellerSpielzug.Wuerfe.Count == 4)
 			{
 				// Punktzahl für diesen Sielzug berechnen
+				int j = aktuellerSpielzug.Wuerfe.Count-1;
 				for(int i = 0; i < aktuellerSpielzug.Wuerfe.Count; i++)
 				{
-					aktuellerSpielzug.PunktZahl += aktuellerSpielzug.Wuerfe[i].Punktzahl * ((int)Math.Pow(10,i));
+					aktuellerSpielzug.PunktZahl += aktuellerSpielzug.Wuerfe[i].Punktzahl * ((int)Math.Pow(10,j));
+					j--;
 				}
 				
 				int index = data.Spieler.IndexOf(aktuellerSpieler);

@@ -18,9 +18,13 @@ namespace kegel_server
 	public interface ISpiel
 	{
 		void Start(List<UserData> listOfUser);
-		UserData GetSpieler();
+		
+		UserData GetAktuellenSpieler();
+		
 		bool SetWurf(WurfData wurf);
-		string GetErklaerung();
+		
 		SpielData GetDaten();
+		string GetErklaerung();
+		string GetName();
 	}
 }

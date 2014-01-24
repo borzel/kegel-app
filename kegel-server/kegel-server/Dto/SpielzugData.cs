@@ -21,5 +21,7 @@ namespace kegel_server.Dto
 		
 		private List<WurfData> _wuerfe;
 		public List<WurfData> Wuerfe {get{return _wuerfe;}}
+		
+		public int PunktZahl {get; set;}
 	}
 }

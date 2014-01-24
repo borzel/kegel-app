@@ -7,39 +7,46 @@ using kegel_server.Dto;
 
 namespace kegel_server
 {
-    class ServerDataHelper
-    {
-        private static string dataFileName = "kegelserver.data";
-        private static XmlSerializer serializer = new XmlSerializer(typeof(ServerData));
+	class ServerDataHelper
+	{
+		private static string dataFileName = "kegelserver.data";
+		private static XmlSerializer serializer = new XmlSerializer(typeof(ServerData));
 
-        public static void Load()
-        {
-            ServerData data = new ServerData();
+		public static void Load()
+		{
+			ServerData data = new ServerData();
 
-            if (File.Exists(dataFileName))
-            {
-                FileStream file = new FileStream(dataFileName, FileMode.Open);
-                data = serializer.Deserialize(file) as ServerData;
-                file.Close();
+			if (File.Exists(dataFileName))
+			{
+				FileStream file = new FileStream(dataFileName, FileMode.Open);
+				try
+				{
+					data = serializer.Deserialize(file) as ServerData;
+				}
+				catch
+				{
+					data = new ServerData();
+				}
+				file.Close();
 
-                Console.WriteLine("Serverdaten aus \"{0}\" geladen", dataFileName);
-            }
+				Console.WriteLine("Serverdaten aus \"{0}\" geladen", dataFileName);
+			}
 
-            Server.Data = data;
-        }
+			Server.Data = data;
+		}
 
-        public static void Save()
-        {
-            if (File.Exists(dataFileName))
-            {
-                File.Delete(dataFileName);
-            }
+		public static void Save()
+		{
+			if (File.Exists(dataFileName))
+			{
+				File.Delete(dataFileName);
+			}
 
-            FileStream file = new FileStream(dataFileName, FileMode.Create);
-            serializer.Serialize(file, Server.Data);
-            file.Close();
+			FileStream file = new FileStream(dataFileName, FileMode.Create);
+			serializer.Serialize(file, Server.Data);
+			file.Close();
 
-            Console.WriteLine("Serverdaten nach \"{0}\" gesichert", dataFileName);
-        }
-    }
+			Console.WriteLine("Serverdaten nach \"{0}\" gesichert", dataFileName);
+		}
+	}
 }

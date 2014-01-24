@@ -1,0 +1,23 @@
+﻿@Master['Master']
+
+@Section['Content']
+	<h1>Spiel: @!Model.Spielname</h1>
+	@!Model.Erklaerung<br/>
+	N&auml;chster Spieler: @!Model.Spieler<br/>
+	
+	@If.KeinSpiel
+		<form action="/spiel/start" method="POST">
+			<input type="radio" name="spiel" value="hausnummervor"> Hausnummer (vorw&auml;rts)<br>
+    		<input type="radio" name="spiel" value="hausnummerzurueck"> Hausnummer (zur&uuml;k)<br>
+			<input type="submit" value="Start!"/>
+		</form>
+	@EndIf
+	
+	@If.KannWurf
+		<form action="/spiel/wurf" method="POST">
+			Punkte: <input type="text" name="punktzahl" autofocus/>
+			<input type="submit" value="Eingeben"/>
+		</form>
+	@EndIf
+	
+@EndSection
