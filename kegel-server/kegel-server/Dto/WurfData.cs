@@ -12,22 +12,13 @@ namespace kegel_server.Dto
 {
 	[Serializable]
 	public class WurfData
-	{
-		public WurfData()
-		{
-		}
-		
-		private int _punktzahl;
-		public int Punktzahl
-		{
-			get {return _punktzahl;}
-			set
-			{
-				if (value <= 9)
-					_punktzahl = value;
-				else
-					throw new FormatException("Punktzahl muss zwischen NULL und 9 liegen");
-			}
-		}
+	{	
+		public Guid Id {get; set;}
+		public Guid Spieler {get; set;}
+		public Guid Spielzug {get; set;}
+		public int Wurfnummer {get; set;}
+		public bool Ratte {get; set;}
+		public bool Ungueltig {get; set;}
+		public int Wurfergebniss {get; set;}
 	}
 }

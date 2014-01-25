@@ -16,14 +16,7 @@ namespace kegel_server.Module
 			
 			Get["/"] = _ =>
 			{
-				List<Result> ergebnisse = new List<Result>();
-
-				foreach (UserData user in Server.Data.ListOfUser)
-				{
-					ergebnisse.Add(new Result{ Spieler = user});
-				}
-
-				return View["result.html", ergebnisse];
+				return View["result", Server.Data.ListOfSpiele];
 			};
 		}
 	}

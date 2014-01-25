@@ -13,5 +13,7 @@ namespace kegel_server.Dto
     {
         public List<UserData> ListOfUser = new List<UserData>();
         public List<SpielData> ListOfSpiele = new List<SpielData>();
+        public List<SpielzugData> Spielzuege = new List<SpielzugData>();
+        public List<WurfData> Wuerfe = new List<WurfData>();
     }
 }

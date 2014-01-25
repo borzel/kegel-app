@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Linq;
 using kegel_server.Dto;
 using kegel_server.Games;
 using Nancy;
@@ -38,7 +39,7 @@ namespace kegel_server.Module
 						break;
 				}
 				
-				spiel.Start(Server.Data.ListOfUser);
+				spiel.Start();
 				Server.CurrentSpiel = spiel;
 				Server.Data.ListOfSpiele.Add(spiel.GetDaten());
 				
@@ -48,7 +49,24 @@ namespace kegel_server.Module
 			Post["/wurf"] = _ =>
 			{
 				WurfData wurf = new WurfData();
-				wurf.Punktzahl = int.Parse(Request.Form["punktzahl"]);
+				wurf.Id = Guid.NewGuid();
+				Server.Data.Wuerfe.Add(wurf);
+				
+				string erg = Request.Form["punktzahl"];
+				if (erg == "R")
+				{
+					wurf.Wurfergebniss = 0;
+					wurf.Ratte = true;
+				}
+				else if(erg== "U")
+				{
+					wurf.Wurfergebniss = 0;
+					wurf.Ungueltig = true;
+				}
+				else
+				{
+					wurf.Wurfergebniss = int.Parse(erg);
+				}
 				
 				if (!Server.CurrentSpiel.SetWurf(wurf))
 				{
@@ -66,7 +84,7 @@ namespace kegel_server.Module
 				
 				if (Server.CurrentSpiel != null)
 				{
-					model.Spieler = Server.CurrentSpiel.GetAktuellenSpieler().Name;
+					model.Spieler = Server.Data.ListOfUser.Where(u => u.Id == Server.CurrentSpiel.GetAktuellenSpieler()).First().Name;
 					model.Erklaerung =  Server.CurrentSpiel.GetErklaerung();
 					model.Spielname = Server.CurrentSpiel.GetName();
 					model.KeinSpiel = false;

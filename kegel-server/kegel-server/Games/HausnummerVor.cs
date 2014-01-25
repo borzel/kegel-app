@@ -18,9 +18,10 @@ namespace kegel_server.Games
 	/// </summary>
 	public class HausnummerVor : ISpiel
 	{
-		SpielData data;
-		UserData aktuellerSpieler;
+		SpielData spielDaten;
+		Guid aktuellerSpieler;
 		SpielzugData aktuellerSpielzug;
+		List<Guid> spielerSequenz = new List<Guid>();
 		
 		public string GetName()
 		{
@@ -32,41 +33,46 @@ namespace kegel_server.Games
 			return "Jeder führt einen Spielzug mit 4 Würfen durch. Jeder Wurf entspricht der Stelle einer vierstelligen Zahl, beginnend mit der 1. Stelle. Die Würfe 0, 8, 1, 5 ergeben die Zahl 0815, also die Punktzahl 815.";
 		}
 		
-		public void Start(List<UserData> listOfUser)
+		public void Start()
 		{
-			data = new SpielData();
-			data.Spieler = listOfUser;
+			spielDaten = new SpielData();
+			spielDaten.Id = Guid.NewGuid();
+			spielDaten.Name = GetName();
 			
-			// mit dem ersten Spieler beginnen
-			aktuellerSpieler = data.Spieler.First();
+			// Jeder ist einmal dran
+			spielerSequenz = Server.Data.ListOfUser.Select(user => user.Id).ToList();
 			
-			// Spielzüge initialisieren
+			// ersten Spielzug + Spieler initialisieren
 			NeuerSpielzug();
 		}
 		
-		public UserData GetAktuellenSpieler()
+		public Guid GetAktuellenSpieler()
 		{
 			return aktuellerSpieler;
 		}
 		
 		public bool SetWurf(WurfData wurf)
 		{
-			aktuellerSpielzug.Wuerfe.Add(wurf);
+			wurf.Spieler = aktuellerSpieler;
+			wurf.Spielzug = aktuellerSpielzug.Id;
+			wurf.Wurfnummer = Server.Data.Wuerfe.Count(w => w.Spielzug == aktuellerSpielzug.Id);
+			
+			List<WurfData> wuerfeDesSpielzuges = Server.Data.Wuerfe
+				.Where(w => w.Spielzug == aktuellerSpielzug.Id)
+				.OrderBy(w => w.Wurfnummer).ToList();
 			
 			// Prüfen, ob nächster Spieler dran ist
-			if (aktuellerSpielzug.Wuerfe.Count == 4)
-			{
-				// Punktzahl für diesen Sielzug berechnen
-				for(int i = 0; i < aktuellerSpielzug.Wuerfe.Count; i++)
+			int anzahlWuerfe = wuerfeDesSpielzuges.Count();
+			if (anzahlWuerfe >= GetMaxWuerfeJeSpielzug())
+			{				
+				// Punktzahl für diesen Spielzug berechnen
+				for(int i = 1; i <= anzahlWuerfe; i++)
 				{
-					aktuellerSpielzug.PunktZahl += aktuellerSpielzug.Wuerfe[i].Punktzahl * ((int)Math.Pow(10,i));
+					aktuellerSpielzug.Punktzahl += wuerfeDesSpielzuges.Where(w => w.Wurfnummer==i).First().Wurfergebniss * ((int)Math.Pow(10,i));
 				}
 				
-				int index = data.Spieler.IndexOf(aktuellerSpieler);
-				if (index < (data.Spieler.Count - 1))
+				if (spielerSequenz.Any())
 				{
-					// nächsten aus der Liste nehmen
-					aktuellerSpieler = data.Spieler[index + 1];
 					NeuerSpielzug();
 				}
 				else
@@ -81,13 +87,29 @@ namespace kegel_server.Games
 		
 		public SpielData GetDaten()
 		{
-			return data;
+			return spielDaten;
 		}
 		
 		private void NeuerSpielzug()
 		{
+			aktuellerSpieler = spielerSequenz.First();
+			spielerSequenz.RemoveAt(0);
+			
 			aktuellerSpielzug = new SpielzugData();
-			data.Spielzuege.Add(aktuellerSpielzug);
+			aktuellerSpielzug.Id = Guid.NewGuid();
+			aktuellerSpielzug.Spiel = spielDaten.Id;
+			aktuellerSpielzug.Spieler = aktuellerSpieler;
+			Server.Data.Spielzuege.Add(aktuellerSpielzug);
+		}
+		
+		public int GetMaxSpielzuege()
+		{
+			return 1;
+		}
+		
+		public int GetMaxWuerfeJeSpielzug()
+		{
+			return 4;
 		}
 	}
 }

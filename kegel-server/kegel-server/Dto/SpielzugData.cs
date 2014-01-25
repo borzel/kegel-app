@@ -13,15 +13,11 @@ namespace kegel_server.Dto
 {
 	[Serializable]
 	public class SpielzugData
-	{
-		public SpielzugData()
-		{
-			_wuerfe = new List<WurfData>();
-		}
-		
-		private List<WurfData> _wuerfe;
-		public List<WurfData> Wuerfe {get{return _wuerfe;}}
-		
-		public int PunktZahl {get; set;}
+	{		
+		public Guid Id {get; set;}
+		public Guid Spiel {get; set;}
+		public Guid Spieler {get; set;}
+		public int Spielzugnummer {get; set;}
+		public int Punktzahl {get; set;}
 	}
 }

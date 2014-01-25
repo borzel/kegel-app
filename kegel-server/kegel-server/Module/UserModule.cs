@@ -47,6 +47,7 @@ namespace kegel_server.Module
 				else
 				{
 					UserData u = new UserData();
+					u.Id = new Guid();
 					u.Name = newUsername;
 					u.Id = Guid.NewGuid();
 					Server.Data.ListOfUser.Add(u);
