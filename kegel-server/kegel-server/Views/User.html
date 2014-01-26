@@ -6,6 +6,8 @@
 			<fieldset>
 				<legend><font color=green>Neuer Mitspieler</font></legend>
 				<input type="text" name="username"/>
+                <input type="radio" name="sex" value="Mann" checked>Mann<br />
+                <input type="radio" name="sex" value="Frau">Frau<br />
 				<input type="submit" value="Hinzuf&uuml;gen"/>
 			</fieldset>
 		</form>
@@ -15,7 +17,7 @@
 				<form action="/user/delete" method="POST">
 					<input type="hidden" name="id" value="@Current.Id"/>
 					<input type="submit" value="X"/>
-					@!Current.Name
+					@!Current.Name - @Current.Sex
 				</form>
 			@EndEach
 		</fieldset>

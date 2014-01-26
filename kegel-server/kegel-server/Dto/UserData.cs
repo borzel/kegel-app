@@ -10,6 +10,7 @@ namespace kegel_server.Dto
 	public class UserData
 	{
 		public Guid Id {get; set;}
-		public string Name { get; set; }
+		public string Name { get; set; }        
+        public EnumSex Sex { get; set; }
 	}
 }

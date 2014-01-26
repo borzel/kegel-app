@@ -38,7 +38,11 @@ namespace kegel_server.Module
 			
 			Post["/register"] = _ =>
 			{
-				string newUsername = Request.Form["username"];
+				string newUsername = Request.Form["username"];                
+                EnumSex sex;
+
+                if (!Enum.TryParse<EnumSex>(Request.Form["sex"], out sex))
+                    sex = EnumSex.Mann;
 				
 				if (Server.Data.ListOfUser.Any(x => x.Name == newUsername))
 				{
@@ -46,10 +50,12 @@ namespace kegel_server.Module
 				}
 				else
 				{
-					UserData u = new UserData();
-					u.Id = new Guid();
-					u.Name = newUsername;
-					u.Id = Guid.NewGuid();
+                    UserData u = new UserData
+                    {
+                        Id = new Guid(),
+                        Name = newUsername,
+                        Sex = sex
+                    };
 					Server.Data.ListOfUser.Add(u);
 
 					return Response.AsRedirect("/user");

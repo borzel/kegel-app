@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\EnumUser.cs" />
     <Compile Include="Dto\Result.cs" />
     <Compile Include="Dto\ServerData.cs" />
     <Compile Include="Dto\SpielData.cs" />
@@ -107,12 +108,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Module" />
-    <Folder Include="Dto" />
-    <Folder Include="Games" />
-    <Folder Include="Views" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

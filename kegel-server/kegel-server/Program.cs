@@ -12,10 +12,12 @@ namespace kegel_server
     class Program
     {
         private static readonly string AppName = "KegelServer";
+        const string url = "http://localhost:80";
 
         static void Main(string[] args)
         {
-        	Uri serverUri = new Uri("http://localhost:80");
+            // Admin cmd -> netsh http add urlacl url=http://+:80/ user=Jeder
+        	Uri serverUri = new Uri(url);
         	var nancyHost = new NancyHost(serverUri);
         	nancyHost.Start();
 
