@@ -87,8 +87,7 @@ namespace kegel_server.Module
 					model.Spieler = Server.Data.ListOfUser.Where(u => u.Id == Server.CurrentSpiel.GetAktuellenSpieler()).First().Name;
 					model.Erklaerung =  Server.CurrentSpiel.GetErklaerung();
 					model.Spielname = Server.CurrentSpiel.GetName();
-					model.KeinSpiel = false;
-					model.KannWurf = true;
+					model.Spiel = true;
 				}
 				
 				return View["game", model];
@@ -101,13 +100,11 @@ namespace kegel_server.Module
 		public string Spieler{get; set;}
 		public string Erklaerung {get; set;}
 		public string Spielname {get; set;}
-		public bool KeinSpiel {get; set;}
-		public bool KannWurf {get; set;}
+		public bool Spiel {get; set;}
 		
 		public GameModel()
 		{
-			KeinSpiel = true;
-			KannWurf = false;
+			Spiel = false;
 			Spieler = "";
 			Spielname = "Es läuft gerade kein Spiel";
 			Erklaerung = "nix los hier :-(";

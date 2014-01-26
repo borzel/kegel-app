@@ -19,7 +19,7 @@ namespace kegel_server.Games
 	/// </summary>
 	public class HausnummerZurueck : ISpiel
 	{
-		SpielData data;
+		SpielData spielDaten;
 		Guid aktuellerSpieler;
 		SpielzugData aktuellerSpielzug;
 		List<Guid> spielerSequenz = new List<Guid>();
@@ -36,17 +36,14 @@ namespace kegel_server.Games
 		
 		public void Start()
 		{
-			data = new SpielData();
-			data.Name = GetName();
+			spielDaten = new SpielData();
+			spielDaten.Id = Guid.NewGuid();
+			spielDaten.Name = GetName();
 			
 			// Jeder ist einmal dran
 			spielerSequenz = Server.Data.ListOfUser.Select(user => user.Id).ToList();
 			
-			// mit dem ersten Spieler beginnen
-			aktuellerSpieler = spielerSequenz.First();
-			spielerSequenz.RemoveAt(0);
-			
-			// Spielzüge initialisieren
+			// ersten Spielzug + Spieler initialisieren
 			NeuerSpielzug();
 		}
 		
@@ -56,7 +53,7 @@ namespace kegel_server.Games
 		}
 		
 		public bool SetWurf(WurfData wurf)
-		{			
+		{
 			wurf.Spieler = aktuellerSpieler;
 			wurf.Spielzug = aktuellerSpielzug.Id;
 			wurf.Wurfnummer = Server.Data.Wuerfe.Count(w => w.Spielzug == aktuellerSpielzug.Id);
@@ -67,12 +64,12 @@ namespace kegel_server.Games
 			
 			// Prüfen, ob nächster Spieler dran ist
 			int anzahlWuerfe = wuerfeDesSpielzuges.Count();
-			if (anzahlWuerfe == 4)
+			if (anzahlWuerfe >= GetMaxWuerfeJeSpielzug())
 			{				
 				// Punktzahl für diesen Spielzug berechnen
 				for(int i = 0; i < anzahlWuerfe; i++)
 				{
-					aktuellerSpielzug.Punktzahl += wuerfeDesSpielzuges.Where(w => w.Wurfnummer==i).First().Wurfergebniss * ((int)Math.Pow(10,i));
+					aktuellerSpielzug.Punktzahl += wuerfeDesSpielzuges.Where(w => w.Wurfnummer==i+1).First().Wurfergebniss * ((int)Math.Pow(10,i));
 				}
 				
 				if (spielerSequenz.Any())
@@ -91,7 +88,7 @@ namespace kegel_server.Games
 		
 		public SpielData GetDaten()
 		{
-			return data;
+			return spielDaten;
 		}
 		
 		private void NeuerSpielzug()
@@ -100,7 +97,10 @@ namespace kegel_server.Games
 			spielerSequenz.RemoveAt(0);
 			
 			aktuellerSpielzug = new SpielzugData();
-			aktuellerSpielzug.Spiel = data.Id;
+			aktuellerSpielzug.Id = Guid.NewGuid();
+			aktuellerSpielzug.Spiel = spielDaten.Id;
+			aktuellerSpielzug.Spieler = aktuellerSpieler;
+			Server.Data.Spielzuege.Add(aktuellerSpielzug);
 		}
 		
 		public int GetMaxSpielzuege()

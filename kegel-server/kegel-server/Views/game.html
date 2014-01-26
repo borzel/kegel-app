@@ -1,19 +1,21 @@
 ﻿@Master['Master']
 
 @Section['Content']
-	<h1>Spiel: @!Model.Spielname</h1>
-	@!Model.Erklaerung<br/>
-	N&auml;chster Spieler: @!Model.Spieler<br/>
-	
-	@If.KeinSpiel
+
+	@IfNot.Spiel
+		<h1>Spiel starten</h1>
 		<form action="/spiel/start" method="POST">
-			<input type="radio" name="spiel" value="hausnummervor"> Hausnummer (vorw&auml;rts)<br>
-    		<input type="radio" name="spiel" value="hausnummerzurueck"> Hausnummer (zur&uuml;k)<br>
+			<input type="radio" name="spiel" value="hausnummervor">Hausnummer (vorw&auml;rts)<br/>
+    		<input type="radio" name="spiel" value="hausnummerzurueck">Hausnummer (zur&uuml;ck)<br/><br/>
 			<input type="submit" value="Start!"/>
 		</form>
 	@EndIf
 	
-	@If.KannWurf
+	@If.Spiel
+		<h1>Spiel: @!Model.Spielname</h1>
+		<legend>@!Model.Erklaerung</legend><br/>
+		N&auml;chster Spieler: @!Model.Spieler<br/>
+	
 		<form action="/spiel/wurf" method="POST">
 			Punkte: <input type="text" name="punktzahl" autofocus/>
 			<input type="submit" value="Eingeben"/>

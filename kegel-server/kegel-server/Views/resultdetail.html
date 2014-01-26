@@ -1,0 +1,10 @@
+﻿@Master['Master']
+
+@Section['Content']
+	<h1>Ergebnisse @!Model.Spielname</h1>
+
+	@Each.Results
+		Platz @Current.Platz: @!Current.Spieler (Punkte: @Current.Punktzahl W&uuml;rfe: @!Current.Wuerfe)<br/>
+	@EndEach
+	
+@EndSection

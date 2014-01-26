@@ -2,9 +2,9 @@
 
 @Section['Content']
 	<h1>Ergebnisse</h1>
-	
+
 	@Each
-		Spiel @!Current.Name<br/>
+		<a href="/result/@Current.Id">@!Current.Name</a><br/>
 	@EndEach
 	
 @EndSection

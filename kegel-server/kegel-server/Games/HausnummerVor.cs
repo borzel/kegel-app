@@ -68,7 +68,7 @@ namespace kegel_server.Games
 				// Punktzahl für diesen Spielzug berechnen
 				for(int i = 1; i <= anzahlWuerfe; i++)
 				{
-					aktuellerSpielzug.Punktzahl += wuerfeDesSpielzuges.Where(w => w.Wurfnummer==i).First().Wurfergebniss * ((int)Math.Pow(10,i));
+					aktuellerSpielzug.Punktzahl += wuerfeDesSpielzuges.Where(w => w.Wurfnummer==i).First().Wurfergebniss * ((int)Math.Pow(10,anzahlWuerfe-i));
 				}
 				
 				if (spielerSequenz.Any())
