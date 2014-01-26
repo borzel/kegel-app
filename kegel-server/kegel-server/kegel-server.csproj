@@ -73,9 +73,11 @@
     <Compile Include="Dto\SpielzugData.cs" />
     <Compile Include="Dto\UserData.cs" />
     <Compile Include="Dto\WurfData.cs" />
+    <Compile Include="Games\Hausnummer.cs" />
     <Compile Include="Games\HausnummerVor.cs" />
     <Compile Include="Games\HausnummerZurueck.cs" />
-    <Compile Include="ISpiel.cs" />
+    <Compile Include="Games\Spiel.cs" />
+    <Compile Include="Games\ISpiel.cs" />
     <Compile Include="Module\DebugModule.cs" />
     <Compile Include="Module\GameModule.cs" />
     <Compile Include="Module\MainModule.cs" />
