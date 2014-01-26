@@ -10,4 +10,5 @@ namespace kegel_server.Dto
         Mann,
         Frau
     }
+
 }

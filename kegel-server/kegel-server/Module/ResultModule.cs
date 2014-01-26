@@ -30,6 +30,7 @@ namespace kegel_server.Module
 				{
 					ResultData result = new ResultData();
 					result.Spieler = user.Name;
+                    result.Sex = user.Sex;
 						
 					foreach(var spielzug in Server.Data.Spielzuege.Where(s=>s.Spieler == user.Id && s.Spiel == spiel.Id).OrderBy(s=>s.Spielzugnummer))
 					{
@@ -62,8 +63,21 @@ namespace kegel_server.Module
 				
 				// Platzvergabe
 				model.Results = model.Results.OrderByDescending(r=>r.Punktzahl).ToList();
-				int i = 1;
-				foreach(var res in model.Results) { res.Platz = i; i++; }
+                int platzGesamt = 1;
+                int platzMaenner = 1;
+                int platzFrauen = 1;
+
+                model.Results.ForEach(res =>
+                {
+                    res.PlatzGesamt = platzGesamt++;
+
+                    if (res.Sex == EnumSex.Mann)
+                        res.PlatzMaenner = platzMaenner++;
+                    else
+                        res.PlatzFrauen = platzFrauen++;
+
+
+                });
 				
 				return View["resultdetail", model];
 			};
@@ -85,8 +99,11 @@ namespace kegel_server.Module
 	public class ResultData
 	{
 		public string Spieler {get; set;}
+        public EnumSex Sex { get; set; }
 		public string Wuerfe {get; set;}
 		public int Punktzahl {get; set;}
-		public int Platz {get; set;}
+		public int PlatzGesamt {get; set;}
+        public int? PlatzMaenner { get; set; }
+        public int? PlatzFrauen { get; set; }
 	}
 }

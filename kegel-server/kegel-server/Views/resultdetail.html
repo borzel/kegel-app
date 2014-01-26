@@ -2,9 +2,25 @@
 
 @Section['Content']
 	<h1>Ergebnisse @!Model.Spielname</h1>
-
-	@Each.Results
-		Platz @Current.Platz: @!Current.Spieler (Punkte: @Current.Punktzahl W&uuml;rfe: @!Current.Wuerfe)<br/>
-	@EndEach
-	
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>W&uuml;rfe</th>
+            <th>Punkte</th>
+            <th>Platz (Gesamt)</th>
+            <th>Platz (M&auml;nner)</th>
+            <th>Platz (Frauen)</th>
+        </tr>
+        
+        @Each.Results
+            <tr>
+                <td align="center">@!Current.Spieler</td>
+                <td align ="center">@!Current.Wuerfe</td>
+                <td align="center">@Current.Punktzahl</td>
+                <td align="center">@Current.PlatzGesamt</td>
+                <td align="center">@Current.PlatzMaenner</td>
+                <td align="center">@Current.PlatzFrauen</td>
+            </tr>
+        @EndEach
+    </table> 
 @EndSection

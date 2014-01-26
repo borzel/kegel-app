@@ -52,7 +52,7 @@ namespace kegel_server.Module
 				{
                     UserData u = new UserData
                     {
-                        Id = new Guid(),
+                        Id = Guid.NewGuid(),
                         Name = newUsername,
                         Sex = sex
                     };
