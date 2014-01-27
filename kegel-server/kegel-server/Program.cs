@@ -6,9 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Nancy.Hosting.Self;
+using Nancy;
+using Nancy.Conventions;
 
 namespace kegel_server
-{
+{    
+
     class Program
     {
         private static readonly string AppName = "KegelServer";

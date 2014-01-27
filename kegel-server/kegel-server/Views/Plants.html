@@ -1,0 +1,47 @@
+﻿@Master['Master']
+
+@Section['Content']
+
+<h1>Testtabelle</h1>
+
+ <table id="table_id">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Genus</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="3" class="dataTables_empty">Loading data from server</td>
+        </tr>
+    </tbody>
+</table>
+<div id="dataoutput"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#table_id').dataTable({
+            "bProcessing": true,
+            "bStateSave": true,
+            "bServerSide": true,
+            "bJQueryUI": true,
+            "bFilter": false,
+            "sAjaxSource": "/test/plants",
+            "sDom": 'R<"dataTables_HeaderWrapper"<"H"lfr>><"dataTables_BodyWrapper"t><"dataTables_FooterWrapper"<"F"ip>>',
+            "aoColumns": [
+                { "mData": "Id", "sTitle": "Id", "sWidth": "20%", "bSortable": true },
+                { "mData": "Name", "sTitle": "Name", "sWidth": "40%", "bSortable": false },
+                { "mData": "Genus", "sTitle": "Genus1", "sWidth": "40%", "bSortable": false }
+            ],
+            "sPaginationType": "full_numbers",
+            "fnServerData": function (sSource, aoData, fnCallback) {
+                $.getJSON(sSource, aoData, function (jsondata) {
+                    fnCallback(jsondata);
+                });
+            }
+        });
+    });
+    </script>
+@EndSection

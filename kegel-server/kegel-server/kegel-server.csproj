@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationBootstrapper.cs" />
     <Compile Include="Dto\EnumUser.cs" />
     <Compile Include="Dto\Result.cs" />
     <Compile Include="Dto\ServerData.cs" />
@@ -78,10 +79,13 @@
     <Compile Include="Games\HausnummerZurueck.cs" />
     <Compile Include="Games\Spiel.cs" />
     <Compile Include="Games\ISpiel.cs" />
+    <Compile Include="Models\PlantModel.cs" />
+    <Compile Include="Models\PlantsModel.cs" />
     <Compile Include="Module\DebugModule.cs" />
     <Compile Include="Module\GameModule.cs" />
     <Compile Include="Module\MainModule.cs" />
     <Compile Include="Module\ResultModule.cs" />
+    <Compile Include="Module\PlantsModule.cs" />
     <Compile Include="Module\UserModule.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ServerDataHelper.cs" />
@@ -91,6 +95,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Static\js\templates\layout.ejs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Views\game.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -110,7 +117,38 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Static\jquery\css\images\ui-icons_222222_256x240.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\jquery\css\jquery-ui.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\jquery\css\jquery.dataTables.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\jquery\css\jquery.dataTables_themeroller.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\js\controller.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\js\ejs_production.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\jquery\js\jquery-1.6.2.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\jquery\js\jquery-ui.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Static\jquery\js\jquery.dataTables.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Views\Plants.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
