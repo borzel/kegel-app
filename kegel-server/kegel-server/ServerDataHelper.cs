@@ -9,10 +9,10 @@ namespace kegel_server
 {
 	class ServerDataHelper
 	{
-		private static string dataFileName = "kegelserver.data";
-		private static XmlSerializer serializer = new XmlSerializer(typeof(ServerData));
+		private string dataFileName = "kegelserver.data";
+		private XmlSerializer serializer = new XmlSerializer(typeof(ServerData));
 
-		public static void Load()
+		public ServerData Load()
 		{
 			ServerData data = new ServerData();
 
@@ -22,20 +22,20 @@ namespace kegel_server
 				try
 				{
 					data = serializer.Deserialize(file) as ServerData;
+					Console.WriteLine("Serverdaten aus \"{0}\" geladen", dataFileName);
 				}
 				catch
 				{
 					data = new ServerData();
+					Console.WriteLine("Ladefehler! Serverdaten neu und leer erzeugt.");
 				}
 				file.Close();
-
-				Console.WriteLine("Serverdaten aus \"{0}\" geladen", dataFileName);
 			}
 
-			Server.Data = data;
+			return data;
 		}
 
-		public static void Save()
+		public void Save(ServerData data)
 		{
 			if (File.Exists(dataFileName))
 			{
@@ -43,7 +43,7 @@ namespace kegel_server
 			}
 
 			FileStream file = new FileStream(dataFileName, FileMode.Create);
-			serializer.Serialize(file, Server.Data);
+			serializer.Serialize(file, data);
 			file.Close();
 
 			Console.WriteLine("Serverdaten nach \"{0}\" gesichert", dataFileName);

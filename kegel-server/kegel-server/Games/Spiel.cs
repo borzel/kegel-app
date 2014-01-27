@@ -26,7 +26,7 @@ namespace kegel_server.Games
             spielDaten.Name = GetName();
 
             // Jeder ist einmal dran
-            spielerSequenz = Server.Data.ListOfUser.Select(user => user.Id).ToList();
+            spielerSequenz = Server.Instance.Data.ListOfUser.Select(user => user.Id).ToList();
 
             // ersten Spielzug + Spieler initialisieren
             NeuerSpielzug();
@@ -41,16 +41,16 @@ namespace kegel_server.Games
             aktuellerSpielzug.Id = Guid.NewGuid();
             aktuellerSpielzug.Spiel = spielDaten.Id;
             aktuellerSpielzug.Spieler = aktuellerSpieler;
-            Server.Data.Spielzuege.Add(aktuellerSpielzug);
+            Server.Instance.Data.Spielzuege.Add(aktuellerSpielzug);
         }
 
         public virtual bool SetWurf(WurfData wurf)
         {            
             wurf.Spieler = aktuellerSpieler;
             wurf.Spielzug = aktuellerSpielzug.Id;
-            wurf.Wurfnummer = Server.Data.Wuerfe.Count(w => w.Spielzug == aktuellerSpielzug.Id);
+            wurf.Wurfnummer = Server.Instance.Data.Wuerfe.Count(w => w.Spielzug == aktuellerSpielzug.Id);
 
-            List<WurfData> wuerfeDesSpielzuges = Server.Data.Wuerfe
+            List<WurfData> wuerfeDesSpielzuges = Server.Instance.Data.Wuerfe
                 .Where(w => w.Spielzug == aktuellerSpielzug.Id)
                 .OrderBy(w => w.Wurfnummer).ToList();
 

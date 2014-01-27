@@ -17,17 +17,17 @@ namespace kegel_server.Module
 		{
 			Get["/"] = _ => 
 			{
-				return View["User.html", Server.Data.ListOfUser.OrderBy(x => x.Name)];
+				return View["User.html", Server.Instance.GetUsers().OrderBy(x=>x.Name)];
 			};
 			
 			Post["/delete"] = _ =>
 			{
 				Guid userId = Request.Form["id"];
 				
-				UserData userToDelete = Server.Data.ListOfUser.Where(x => x.Id == userId).FirstOrDefault();
+				UserData userToDelete = Server.Instance.GetUsers().Where(x => x.Id == userId).FirstOrDefault();
 				if (userToDelete != null)
 				{
-					Server.Data.ListOfUser.Remove(userToDelete);
+					Server.Instance.RemoveUser(userToDelete);
 					return Response.AsRedirect("/user");
 				}
 				else
@@ -44,7 +44,7 @@ namespace kegel_server.Module
                 if (!Enum.TryParse<EnumSex>(Request.Form["sex"], out sex))
                     sex = EnumSex.Mann;
 				
-				if (Server.Data.ListOfUser.Any(x => x.Name == newUsername))
+				if (Server.Instance.GetUsers().Any(x => x.Name == newUsername))
 				{
 					return "Spieler exisitert bereits";
 				}
@@ -56,7 +56,7 @@ namespace kegel_server.Module
                         Name = newUsername,
                         Sex = sex
                     };
-					Server.Data.ListOfUser.Add(u);
+					Server.Instance.AddUser(u);
 
 					return Response.AsRedirect("/user");
 				}

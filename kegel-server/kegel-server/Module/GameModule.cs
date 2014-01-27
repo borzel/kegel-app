@@ -40,8 +40,8 @@ namespace kegel_server.Module
 				}
 				
 				spiel.Start();
-				Server.CurrentSpiel = spiel;
-				Server.Data.ListOfSpiele.Add(spiel.GetDaten());
+				Server.Instance.CurrentSpiel = spiel;
+				Server.Instance.Data.ListOfSpiele.Add(spiel.GetDaten());
 				
 				return Response.AsRedirect("/spiel");
 			};
@@ -50,7 +50,7 @@ namespace kegel_server.Module
 			{
 				WurfData wurf = new WurfData();
 				wurf.Id = Guid.NewGuid();
-				Server.Data.Wuerfe.Add(wurf);
+				Server.Instance.Data.Wuerfe.Add(wurf);
 				
 				string erg = Request.Form["punktzahl"];
 				if (erg == "R")
@@ -68,10 +68,10 @@ namespace kegel_server.Module
 					wurf.Wurfergebniss = int.Parse(erg);
 				}
 				
-				if (!Server.CurrentSpiel.SetWurf(wurf))
+				if (!Server.Instance.CurrentSpiel.SetWurf(wurf))
 				{
 					// Spiel ist zuende
-					Server.CurrentSpiel = null;
+					Server.Instance.CurrentSpiel = null;
 				}
 				
 				
@@ -82,11 +82,11 @@ namespace kegel_server.Module
 			{
 				GameModel model = new GameModel();
 				
-				if (Server.CurrentSpiel != null)
+				if (Server.Instance.CurrentSpiel != null)
 				{
-					model.Spieler = Server.Data.ListOfUser.Where(u => u.Id == Server.CurrentSpiel.GetAktuellenSpieler()).First().Name;
-					model.Erklaerung =  Server.CurrentSpiel.GetErklaerung();
-					model.Spielname = Server.CurrentSpiel.GetName();
+					model.Spieler = Server.Instance.Data.ListOfUser.Where(u => u.Id == Server.Instance.CurrentSpiel.GetAktuellenSpieler()).First().Name;
+					model.Erklaerung =  Server.Instance.CurrentSpiel.GetErklaerung();
+					model.Spielname = Server.Instance.CurrentSpiel.GetName();
 					model.Spiel = true;
 				}
 				

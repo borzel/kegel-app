@@ -6,16 +6,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Nancy.Hosting.Self;
-using Nancy;
-using Nancy.Conventions;
 
 namespace kegel_server
-{    
-
+{
     class Program
     {
         private static readonly string AppName = "KegelServer";
-        const string url = "http://localhost:80";
+        const string url = "http://localhost:8008";
 
         static void Main(string[] args)
         {
@@ -25,7 +22,7 @@ namespace kegel_server
         	nancyHost.Start();
 
             Console.WriteLine("{0} gestartet um {1} auf {2}", AppName, DateTime.Now, serverUri);
-            ServerDataHelper.Load();
+            Server.Instance.Load();
             PrintHelp();
 
             bool stayOnline = true;
@@ -38,13 +35,13 @@ namespace kegel_server
                 switch (key)
                 {
                     case 's':
-                        ServerDataHelper.Save();
+                        Server.Instance.Save();
                         break;
                     case 'l':
-                        ServerDataHelper.Load();
+                        Server.Instance.Load();
                         break;
                     case 'q':
-                        ServerDataHelper.Save();
+                        Server.Instance.Save();
                         stayOnline = false;
                         Console.WriteLine("Kegelserver ist jetzt aus!");
                         Thread.Sleep(1000);

@@ -16,27 +16,27 @@ namespace kegel_server.Module
 			
 			Get["/"] = _ =>
 			{
-				return View["result", Server.Data.ListOfSpiele];
+				return View["result", Server.Instance.Data.ListOfSpiele];
 			};
 			
 			Get["/{spiel_id}"] = _ =>
 			{
 				ResultModel model = new ResultModel();
 				
-				SpielData spiel = Server.Data.ListOfSpiele.Where(sp=>sp.Id == _.spiel_id).First();
+				SpielData spiel = Server.Instance.Data.ListOfSpiele.Where(sp=>sp.Id == _.spiel_id).First();
 				model.Spielname = spiel.Name;
 				
-				foreach(var user in Server.Data.ListOfUser)
+				foreach(var user in Server.Instance.Data.ListOfUser)
 				{
 					ResultData result = new ResultData();
 					result.Spieler = user.Name;
                     result.Sex = user.Sex;
 						
-					foreach(var spielzug in Server.Data.Spielzuege.Where(s=>s.Spieler == user.Id && s.Spiel == spiel.Id).OrderBy(s=>s.Spielzugnummer))
+					foreach(var spielzug in Server.Instance.Data.Spielzuege.Where(s=>s.Spieler == user.Id && s.Spiel == spiel.Id).OrderBy(s=>s.Spielzugnummer))
 					{
 						result.Wuerfe += "(Spielzug " + spielzug.Spielzugnummer + ") ";
 
-						foreach(var wurf in Server.Data.Wuerfe.Where(w=>w.Spielzug == spielzug.Id).OrderBy(w=>w.Wurfnummer))
+						foreach(var wurf in Server.Instance.Data.Wuerfe.Where(w=>w.Spielzug == spielzug.Id).OrderBy(w=>w.Wurfnummer))
 						{
 							string erg;
 							if (wurf.Ungueltig)
