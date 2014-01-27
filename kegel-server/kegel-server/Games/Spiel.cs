@@ -6,7 +6,7 @@ using System.Text;
 
 namespace kegel_server.Games
 {
-    public abstract class Spiel: ISpiel
+    public abstract class Spiel
     {
         private SpielData spielDaten;
         private Guid aktuellerSpieler;
@@ -19,14 +19,14 @@ namespace kegel_server.Games
         public abstract int GetMaxWuerfeJeSpielzug();
         public abstract int GetPunkte(int punkte, int modifier = 1);
 
-        public virtual void Start()
+        public virtual void Start(List<Guid> user)
         {
             spielDaten = new SpielData();
             spielDaten.Id = Guid.NewGuid();
             spielDaten.Name = GetName();
 
             // Jeder ist einmal dran
-            spielerSequenz = Server.Instance.Data.ListOfUser.Select(user => user.Id).ToList();
+            spielerSequenz = user;
 
             // ersten Spielzug + Spieler initialisieren
             NeuerSpielzug();

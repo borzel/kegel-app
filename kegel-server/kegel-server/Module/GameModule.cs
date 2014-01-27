@@ -19,90 +19,92 @@ namespace kegel_server.Module
 	/// </summary>
 	public class GameModule : NancyModule
 	{
-		public GameModule() : base("/spiel")
+		private const string MOUDL_BASEURL = "/game";
+
+		public GameModule () : base(MOUDL_BASEURL)
 		{
-			Post["/start"] = _ =>
+			Post ["/start"] = _ =>
 			{
-				string spielToStart = Request.Form["spiel"];
-				ISpiel spiel;
+				string spielToStart = Request.Form ["spiel"];
+				Spiel spiel;
 				
-				switch(spielToStart)
-				{
-					case "hausnummervor":
-						spiel = new HausnummerVor();
-						break;
-					case "hausnummerzurueck":
-						spiel = new HausnummerZurueck();
-						break;
-					default:
-						spiel = null;
-						break;
+				switch (spielToStart) {
+				case "hausnummervor":
+					spiel = new HausnummerVor ();
+					break;
+				case "hausnummerzurueck":
+					spiel = new HausnummerZurueck ();
+					break;
+				default:
+					spiel = null;
+					break;
 				}
+
+				if (Server.Instance.GetUsers ().Any ()) 
+				{
+					spiel.Start (Server.Instance.GetUsers ().Select (user => user.Id).ToList ());
+					Server.Instance.CurrentSpiel = spiel;
+					Server.Instance.Data.ListOfSpiele.Add (spiel.GetDaten ());
 				
-				spiel.Start();
-				Server.Instance.CurrentSpiel = spiel;
-				Server.Instance.Data.ListOfSpiele.Add(spiel.GetDaten());
-				
-				return Response.AsRedirect("/spiel");
+
+				}
+
+				return Response.AsRedirect (MOUDL_BASEURL);
 			};
 			
-			Post["/wurf"] = _ =>
+			Post ["/wurf"] = _ =>
 			{
-				WurfData wurf = new WurfData();
-				wurf.Id = Guid.NewGuid();
-				Server.Instance.Data.Wuerfe.Add(wurf);
+				WurfData wurf = new WurfData ();
+				wurf.Id = Guid.NewGuid ();
+				Server.Instance.Data.Wuerfe.Add (wurf);
 				
-				string erg = Request.Form["punktzahl"];
-				if (erg == "R")
-				{
+				string erg = Request.Form ["punktzahl"];
+				if (erg == "R") {
 					wurf.Wurfergebniss = 0;
 					wurf.Ratte = true;
-				}
-				else if(erg== "U")
-				{
+				} else if (erg == "U") {
 					wurf.Wurfergebniss = 0;
 					wurf.Ungueltig = true;
-				}
-				else
-				{
-					wurf.Wurfergebniss = int.Parse(erg);
+				} else {
+					wurf.Wurfergebniss = int.Parse (erg);
 				}
 				
-				if (!Server.Instance.CurrentSpiel.SetWurf(wurf))
-				{
+				if (!Server.Instance.CurrentSpiel.SetWurf (wurf)) {
 					// Spiel ist zuende
 					Server.Instance.CurrentSpiel = null;
 				}
 				
 				
-				return Response.AsRedirect("/spiel");
+				return Response.AsRedirect (MOUDL_BASEURL);
 			};
 			
-			Get["/"] = _ =>
+			Get ["/"] = _ =>
 			{
-				GameModel model = new GameModel();
+				GameModel model = new GameModel ();
 				
-				if (Server.Instance.CurrentSpiel != null)
-				{
-					model.Spieler = Server.Instance.Data.ListOfUser.Where(u => u.Id == Server.Instance.CurrentSpiel.GetAktuellenSpieler()).First().Name;
-					model.Erklaerung =  Server.Instance.CurrentSpiel.GetErklaerung();
-					model.Spielname = Server.Instance.CurrentSpiel.GetName();
+				if (Server.Instance.CurrentSpiel != null) {
+					model.Spieler = Server.Instance.Data.ListOfUser.Where (u => u.Id == Server.Instance.CurrentSpiel.GetAktuellenSpieler ()).First ().Name;
+					model.Erklaerung = Server.Instance.CurrentSpiel.GetErklaerung ();
+					model.Spielname = Server.Instance.CurrentSpiel.GetName ();
 					model.Spiel = true;
 				}
 				
-				return View["game", model];
+				return View ["game", model];
 			};
 		}
 	}
 	
 	public class GameModel
 	{
-		public string Spieler{get; set;}
-		public string Erklaerung {get; set;}
-		public string Spielname {get; set;}
-		public bool Spiel {get; set;}
+		public string Spieler{ get; set; }
+
+		public string Erklaerung { get; set; }
+
+		public string Spielname { get; set; }
+
+		public bool Spiel { get; set; }
 		
-		public GameModel()
+		public GameModel ()
 		{
 			Spiel = false;
 			Spieler = "";

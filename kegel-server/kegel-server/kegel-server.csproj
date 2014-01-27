@@ -36,6 +36,7 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <Externalconsole>true</Externalconsole>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -88,7 +89,6 @@
     <Compile Include="Games\HausnummerVor.cs" />
     <Compile Include="Games\HausnummerZurueck.cs" />
     <Compile Include="Games\Spiel.cs" />
-    <Compile Include="Games\ISpiel.cs" />
     <Compile Include="Models\PlantModel.cs" />
     <Compile Include="Models\PlantsModel.cs" />
     <Compile Include="Module\DebugModule.cs" />
@@ -104,7 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-
     <None Include="Views\game.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

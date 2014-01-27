@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using kegel_server.Dto;
+using kegel_server.Games;
 
 namespace kegel_server
 {
@@ -24,7 +25,7 @@ namespace kegel_server
 		#endregion
 
 		public  ServerData Data { get; set; }
-		public  ISpiel CurrentSpiel { get; set; }
+		public  Spiel CurrentSpiel { get; set; }
 		private ServerDataHelper dataHelper = new ServerDataHelper();
 
 		private Server ()
