@@ -11,56 +11,88 @@ using Nancy;
 
 namespace kegel_server.Module
 {
-	public class UserModule : NancyModule
-	{
-		public UserModule() : base("/user")
-		{
-			Get["/"] = _ => 
-			{
-				return View["User.html", Server.Instance.GetUsers().OrderBy(x=>x.Name)];
-			};
+    public class UserModule : NancyModule
+    {
+		const string MODULE_BASEURL = "/user";
+
+        public UserModule() : base(MODULE_BASEURL)
+        {
+            Get ["/"] = _ => 
+            {
+                return View ["User.html", Server.Instance.GetUsers().OrderBy(x => x.Name)];
+            };
+
+            Post ["/edit"] = _ =>
+            {
+                Guid userId = Request.Form ["id"];
+				string newName = Request.Form ["username"];
+				string newSex = Request.Form ["sex"];
+
+				if (newName=="")
+				{
+					return "Bitte Namen ausf&uuml;llen!!";
+				}
+
+                UserData user = Server.Instance.GetUsers().FirstOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+					user.Name = newName;
+
+                    EnumSex newSexEnum;
+                    if (!Enum.TryParse<EnumSex>(newSex, out newSexEnum))
+                    {
+                        user.Sex = newSexEnum;
+                    }
+
+					// Update :-)
+					Server.Instance.RemoveUser(user);
+					Server.Instance.AddUser(user);
+
+					return Response.AsRedirect(MODULE_BASEURL);
+                }
+
+                return HttpStatusCode.InternalServerError;
+            };
 			
-			Post["/delete"] = _ =>
-			{
-				Guid userId = Request.Form["id"];
+            Post ["/delete"] = _ =>
+            {
+                Guid userId = Request.Form ["id"];
 				
-				UserData userToDelete = Server.Instance.GetUsers().Where(x => x.Id == userId).FirstOrDefault();
-				if (userToDelete != null)
-				{
-					Server.Instance.RemoveUser(userToDelete);
-					return Response.AsRedirect("/user");
-				}
-				else
-				{
-					return HttpStatusCode.InternalServerError;
-				}
-			};
+                UserData userToDelete = Server.Instance.GetUsers().Where(x => x.Id == userId).FirstOrDefault();
+                if (userToDelete != null)
+                {
+                    Server.Instance.RemoveUser(userToDelete);
+                    return Response.AsRedirect(MODULE_BASEURL);
+                } else
+                {
+                    return HttpStatusCode.InternalServerError;
+                }
+            };
 			
-			Post["/register"] = _ =>
-			{
-				string newUsername = Request.Form["username"];                
+            Post ["/register"] = _ =>
+            {
+                string newUsername = Request.Form ["username"];                
                 EnumSex sex;
 
-                if (!Enum.TryParse<EnumSex>(Request.Form["sex"], out sex))
+                if (!Enum.TryParse<EnumSex>(Request.Form ["sex"], out sex))
                     sex = EnumSex.Mann;
 				
-				if (Server.Instance.GetUsers().Any(x => x.Name == newUsername))
-				{
-					return "Spieler exisitert bereits";
-				}
-				else
-				{
+                if (Server.Instance.GetUsers().Any(x => x.Name == newUsername))
+                {
+                    return "Spieler exisitert bereits";
+                } else
+                {
                     UserData u = new UserData
                     {
                         Id = Guid.NewGuid(),
                         Name = newUsername,
                         Sex = sex
                     };
-					Server.Instance.AddUser(u);
+                    Server.Instance.AddUser(u);
 
-					return Response.AsRedirect("/user");
-				}
-			};
-		}
-	}
+                    return Response.AsRedirect(MODULE_BASEURL);
+                }
+            };
+        }
+    }
 }

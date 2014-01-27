@@ -2,24 +2,35 @@
 
 @Section['Content']
 	<h1>Mitspieler</h1>
+		
 		<form action="/user/register" method="POST">
-			<fieldset>
-				<legend><font color=green>Neuer Mitspieler</font></legend>
-				<input type="text" name="username"/>
-                <input type="radio" name="sex" value="Mann" checked>Mann<br />
-                <input type="radio" name="sex" value="Frau">Frau<br />
+			<fieldset><legend><font color=green>Hinzuf&uuml;gen</font></legend>
+				<input type="text" name="username" autofocus/>
+                <input type="radio" name="sex" value="Mann" checked>Mann
+                <input type="radio" name="sex" value="Frau">Frau
 				<input type="submit" value="Hinzuf&uuml;gen"/>
 			</fieldset>
 		</form>
+		
+		<form action="/user/edit" method="POST">
+			<fieldset><legend><font color=green>&Auml;ndern</font></legend>
+				<select name="id" onchange="this.form.username=this.form.id.options[this.form.id.selectedIndex].value">
+					@Each
+						<option value="@!Current.Id">@!Current.Name</option>
+					@EndEach
+				</select>
+				wird zu
+				<input type="text" name="username" value=""/>
+				<input type="radio" name="sex" value="Mann" checked>Mann
+                <input type="radio" name="sex" value="Frau">Frau
+				<input type="submit" value="&Auml;ndern"/>
+			</fieldset>
+		</form>
+		
 		<fieldset>
-			<legend><font color=green>Mitspieler</font></legend>
+			<legend><font color=green>Liste</font></legend>
 			@Each
-				<form action="/user/delete" method="POST">
-					<input type="hidden" name="id" value="@Current.Id"/>
-					<input type="submit" value="X"/>
-					@!Current.Name - @Current.Sex
-				</form>
+				@!Current.Name (@!Current.Sex)<br/>
 			@EndEach
 		</fieldset>
-			
 @EndSection
