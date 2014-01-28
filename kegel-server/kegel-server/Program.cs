@@ -22,7 +22,6 @@ namespace kegel_server
         	nancyHost.Start();
 
             Console.WriteLine("{0} gestartet um {1} auf {2}", AppName, DateTime.Now, serverUri);
-            Server.Instance.Load();
             PrintHelp();
 
             bool stayOnline = true;
@@ -34,12 +33,6 @@ namespace kegel_server
 
                 switch (key)
                 {
-                    case 's':
-                        Server.Instance.Save();
-                        break;
-                    case 'l':
-                        Server.Instance.Load();
-                        break;
                     case 'q':
                         Server.Instance.Save();
                         stayOnline = false;

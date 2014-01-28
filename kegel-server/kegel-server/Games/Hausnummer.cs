@@ -5,7 +5,7 @@ using System.Text;
 
 namespace kegel_server.Games
 {
-    public abstract class Hausnummer:Spiel
+    public abstract class Hausnummer:GameBase
     {
         const int MAX_WUERFE = 4;
         const int MAX_SPIELZUEGE = 1;

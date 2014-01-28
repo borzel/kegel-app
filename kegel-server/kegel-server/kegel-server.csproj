@@ -63,6 +63,26 @@
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
@@ -92,17 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationBootstrapper.cs" />
-    <Compile Include="Dto\EnumUser.cs" />
     <Compile Include="Dto\Result.cs" />
-    <Compile Include="Dto\ServerData.cs" />
-    <Compile Include="Dto\SpielData.cs" />
-    <Compile Include="Dto\SpielzugData.cs" />
-    <Compile Include="Dto\UserData.cs" />
-    <Compile Include="Dto\WurfData.cs" />
+    <Compile Include="Games\GameFactory.cs" />
     <Compile Include="Games\Hausnummer.cs" />
     <Compile Include="Games\HausnummerVor.cs" />
     <Compile Include="Games\HausnummerZurueck.cs" />
-    <Compile Include="Games\Spiel.cs" />
+    <Compile Include="Games\GameBase.cs" />
     <Compile Include="Models\PlantModel.cs" />
     <Compile Include="Models\PlantsModel.cs" />
     <Compile Include="Module\DebugModule.cs" />
@@ -112,7 +127,6 @@
     <Compile Include="Module\PlantsModule.cs" />
     <Compile Include="Module\UserModule.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="ServerDataHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

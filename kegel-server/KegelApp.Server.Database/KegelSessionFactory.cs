@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using FluentNHibernate.Cfg;
@@ -34,44 +35,6 @@ namespace KegelApp.Server.Database
         public  void CreateKegelSessionFactory()
         {
             sessionFactory = CreateSessionFactory();
-
-            using (session = sessionFactory.OpenSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    var spiel = new Game { Name = "Hausnummer vor" };
-
-                    var herbert = new User { Name = "Herbert", Sex = SexEnum.Man };
-                    var elfriede = new User { Name = "Elfriede", Sex = SexEnum.Woman };
-                    var gunter = new User { Name = "Gunter", Sex = SexEnum.Man };
-
-                    var spielzugH1 = new Move { InGame = spiel, Player = herbert, Score = 22 };
-                    var spielzugH2 = new Move { InGame = spiel, Player = herbert, Score = 21 };
-                    var spielzugH3 = new Move { InGame = spiel, Player = herbert, Score = 25 };
-
-                    var spielzugE1 = new Move { InGame = spiel, Player = elfriede, Score = 4 };
-                    var spielzugE2 = new Move { InGame = spiel, Player = elfriede, Score = 27 };
-                    var spielzugE3 = new Move { InGame = spiel, Player = elfriede, Score = 1 };
-
-                    var spielzugG1 = new Move { InGame = spiel, Player = gunter, Score = 2 };
-                    var spielzugG2 = new Move { InGame = spiel, Player = gunter, Score = 55 };
-                    var spielzugG3 = new Move { InGame = spiel, Player = gunter, Score = 1 };
-
-                    for (int i = 0; i < 10; i++)
-                    {
-                        var shotH1 = new Shot { Value = 2 };
-                        spielzugH1.AddShot(shotH1);
-                        var shotH2 = new Shot { Value = 4 };
-                        spielzugH1.AddShot(shotH2);
-                        var shotH3 = new Shot { Value = 1 };
-                        spielzugH1.AddShot(shotH3);
-                    }
-
-                    session.SaveOrUpdate(spiel);
-
-                    transaction.Commit();
-                }
-            }
         }
 
         public ISession GetSession()
@@ -82,13 +45,25 @@ namespace KegelApp.Server.Database
             return sessionFactory.OpenSession();
         }
 
-        private  ISessionFactory CreateSessionFactory()
+        private ISessionFactory CreateSessionFactory()
         {
             return Fluently.Configure()
-                           .Database(SQLiteConfiguration.Standard.UsingFile("kegeldata.db"))
+                           .Database(SQLiteConfiguration.Standard.ShowSql().UsingFile("kegeldata.db"))
                            .Mappings(m => m.FluentMappings.AddFromAssemblyOf<KegelSessionFactory>())
                            .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
+                           .ExposeConfiguration(cfg => cfg.SetInterceptor(new ABCInterceptor()))
                            .BuildSessionFactory();
+        }
+    }
+
+    public class ABCInterceptor : EmptyInterceptor
+    {
+        public override NHibernate.SqlCommand.SqlString OnPrepareStatement(NHibernate.SqlCommand.SqlString sql)
+        {
+            Debug.WriteLine("");
+            Debug.WriteLine(sql.ToString());
+            Debug.WriteLine("");
+            return sql;
         }
     }
 }

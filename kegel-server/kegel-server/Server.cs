@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KegelApp.Server.Database;
+using KegelApp.Server.Database.Entities;
 using NHibernate;
 using kegel_server.Dto;
 using kegel_server.Games;
@@ -25,9 +26,6 @@ namespace kegel_server
 		}
 		#endregion
 
-		public  ServerData Data { get; set; }
-		public  Spiel CurrentSpiel { get; set; }
-		private ServerDataHelper dataHelper = new ServerDataHelper();
 	    private ISession session;
 
 		private Server ()
@@ -35,31 +33,46 @@ namespace kegel_server
 		    session = KegelSessionFactory.Instance.GetSession();
 		}
 
+        public void Save()
+        {
+            session.Flush();
+        }
+
+        public ISession GetSession()
+        {
+            return session;
+        }
+
 		#region Users
-		public List<UserData> GetUsers ()
+		public List<User> GetUsers ()
 		{
-			return Data.ListOfUser;
+            List<User> users = session.CreateCriteria(typeof(User)).List<User>().ToList();
+		    return users;
 		}
 
-		public void AddUser (UserData user)
+		public void AddUser (User newUser)
 		{
-			Data.ListOfUser.Add(user);
+            session.SaveOrUpdate(newUser);
 		}
 
-		public void RemoveUser (UserData user)
+		public void RemoveUser (User oldUser)
 		{
-			Data.ListOfUser.Remove(user);
+		    session.SaveOrUpdate(GetUsers().Remove(oldUser));
 		}
 		#endregion
 
-		public void Load()
-		{
-			Data = dataHelper.Load();
-		}
+        #region Spiele
+        public List<Game> GetGames()
+        {
+            List<Game> games = session.CreateCriteria(typeof(Game)).List<Game>().ToList();
+            return games;
+        } 
 
-		public void Save ()
-		{
-			dataHelper.Save(Data);
-		}
-	}
+        public Game CurrentGame()
+        {
+            Game cur = session.CreateCriteria(typeof (Game)).List<Game>().OrderByDescending(x=>x.Id).FirstOrDefault();
+            return cur;
+        }
+        #endregion
+    }
 }

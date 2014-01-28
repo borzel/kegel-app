@@ -17,8 +17,7 @@ namespace KegelApp.Server.Database.Mappings
             References(x => x.InGame);
             References(x => x.Player);
 
-            HasMany(x => x.Shots)
-                .Inverse();
+            HasMany(x => x.Shots).Cascade.All();
         }
     }
 

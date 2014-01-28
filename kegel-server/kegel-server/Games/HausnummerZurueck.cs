@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using KegelApp.Server.Database;
 using kegel_server.Dto;
 
 namespace kegel_server.Games
@@ -35,6 +35,11 @@ namespace kegel_server.Games
         public override int GetPunkte(int punkte, int modifier)
         {
             return punkte * ((int)Math.Pow(10, modifier - 1));
-        }  
+        }
+
+	    public override GameEnum GetGameId()
+	    {
+	        return GameEnum.HausnummerZurueck;
+	    }
 	}
 }

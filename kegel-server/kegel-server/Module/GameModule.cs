@@ -8,6 +8,8 @@
  */
 using System;
 using System.Linq;
+using KegelApp.Server.Database;
+using KegelApp.Server.Database.Entities;
 using kegel_server.Dto;
 using kegel_server.Games;
 using Nancy;
@@ -26,27 +28,13 @@ namespace kegel_server.Module
 			Post ["/start"] = _ =>
 			{
 				string spielToStart = Request.Form ["spiel"];
-				Spiel spiel;
-				
-				switch (spielToStart) {
-				case "hausnummervor":
-					spiel = new HausnummerVor ();
-					break;
-				case "hausnummerzurueck":
-					spiel = new HausnummerZurueck ();
-					break;
-				default:
-					spiel = null;
-					break;
-				}
 
-				if (Server.Instance.GetUsers ().Any ()) 
+                // TODO spieltoStart beachten
+                GameBase spiel = GameFactory.CreateGame(GameEnum.HausnummerVor);
+                
+				if (Server.Instance.GetUsers().Any()) 
 				{
-					spiel.Start (Server.Instance.GetUsers ().Select (user => user.Id).ToList ());
-					Server.Instance.CurrentSpiel = spiel;
-					Server.Instance.Data.ListOfSpiele.Add (spiel.GetDaten ());
-				
-
+					spiel.Start(Server.Instance.GetSession(), Server.Instance.GetUsers());
 				}
 
 				return Response.AsRedirect (MOUDL_BASEURL);
@@ -54,26 +42,23 @@ namespace kegel_server.Module
 			
 			Post ["/wurf"] = _ =>
 			{
-				WurfData wurf = new WurfData ();
-				wurf.Id = Guid.NewGuid ();
-				Server.Instance.Data.Wuerfe.Add (wurf);
+                Shot wurf = new Shot();
 				
 				string erg = Request.Form ["punktzahl"];
 				if (erg == "R") {
-					wurf.Wurfergebniss = 0;
-					wurf.Ratte = true;
+					wurf.Value = 0;
+					wurf.NullShot = true;
 				} else if (erg == "U") {
-					wurf.Wurfergebniss = 0;
-					wurf.Ungueltig = true;
+                    wurf.Value = 0;
+					wurf.Fault = true;
 				} else {
-					wurf.Wurfergebniss = int.Parse (erg);
+                    wurf.Value = int.Parse(erg);
 				}
-				
-				if (!Server.Instance.CurrentSpiel.SetWurf (wurf)) {
-					// Spiel ist zuende
-					Server.Instance.CurrentSpiel = null;
-				}
-				
+
+                GameBase spiel = GameFactory.CreateGame(Server.Instance.CurrentGame().GameId);
+                spiel.SetWurf(Server.Instance.GetSession(), wurf);
+                
+                Server.Instance.Save();
 				
 				return Response.AsRedirect (MOUDL_BASEURL);
 			};
@@ -82,10 +67,10 @@ namespace kegel_server.Module
 			{
 				GameModel model = new GameModel ();
 				
-				if (Server.Instance.CurrentSpiel != null) {
-					model.Spieler = Server.Instance.Data.ListOfUser.Where (u => u.Id == Server.Instance.CurrentSpiel.GetAktuellenSpieler ()).First ().Name;
-					model.Erklaerung = Server.Instance.CurrentSpiel.GetErklaerung ();
-					model.Spielname = Server.Instance.CurrentSpiel.GetName ();
+				if (!Server.Instance.CurrentGame().Finished) {
+					model.Spieler = Server.Instance.CurrentGame().CurrentUser.Name;
+                    model.Erklaerung = Server.Instance.CurrentGame().Description;
+                    model.Spielname = Server.Instance.CurrentGame().Name;
 					model.Spiel = true;
 				}
 				

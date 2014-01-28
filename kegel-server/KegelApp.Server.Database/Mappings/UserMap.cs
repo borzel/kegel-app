@@ -18,6 +18,11 @@ namespace KegelApp.Server.Database.Mappings
             HasMany(x => x.Moves)
                 .Inverse()
                 .Cascade.All();
+
+            HasManyToMany(x => x.GamesToPlay)
+                .Cascade.All()
+                .Inverse()
+                .Table("GameUser");
         }
     }
 }
