@@ -13,5 +13,5 @@ KegelApp.Controller = function(){
         $("#container").html(html);
 	}
 	
-	initLayout();
+	//initLayout();
 }
