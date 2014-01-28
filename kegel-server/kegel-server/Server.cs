@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using KegelApp.Server.Database;
+using NHibernate;
 using kegel_server.Dto;
 using kegel_server.Games;
 
@@ -27,9 +28,11 @@ namespace kegel_server
 		public  ServerData Data { get; set; }
 		public  Spiel CurrentSpiel { get; set; }
 		private ServerDataHelper dataHelper = new ServerDataHelper();
+	    private ISession session;
 
 		private Server ()
 		{
+		    session = KegelSessionFactory.Instance.GetSession();
 		}
 
 		#region Users
