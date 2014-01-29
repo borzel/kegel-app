@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using KegelApp.Server.Database.Entities;
+using KegelApp.Server.Domain.Entities;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 
@@ -32,38 +32,30 @@ namespace KegelApp.Server.Database
         private  ISession session;
         private  ISessionFactory sessionFactory;
 
-        public  void CreateKegelSessionFactory()
+        public void CreateKegelSessionFactory()
         {
             sessionFactory = CreateSessionFactory();
+            session = sessionFactory.OpenSession();
         }
 
         public ISession GetSession()
         {
-            if (sessionFactory == null)
+            if (session == null)
                 CreateKegelSessionFactory();
 
-            return sessionFactory.OpenSession();
+            return session;
         }
 
         private ISessionFactory CreateSessionFactory()
         {
             return Fluently.Configure()
-                           .Database(SQLiteConfiguration.Standard.ShowSql().UsingFile("kegeldata.db"))
+                           .Database(SQLiteConfiguration.Standard
+                           .ShowSql()
+                           .UsingFile("kegeldata.db")
+                           )
                            .Mappings(m => m.FluentMappings.AddFromAssemblyOf<KegelSessionFactory>())
                            .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
-                           .ExposeConfiguration(cfg => cfg.SetInterceptor(new ABCInterceptor()))
                            .BuildSessionFactory();
-        }
-    }
-
-    public class ABCInterceptor : EmptyInterceptor
-    {
-        public override NHibernate.SqlCommand.SqlString OnPrepareStatement(NHibernate.SqlCommand.SqlString sql)
-        {
-            Debug.WriteLine("");
-            Debug.WriteLine(sql.ToString());
-            Debug.WriteLine("");
-            return sql;
         }
     }
 }

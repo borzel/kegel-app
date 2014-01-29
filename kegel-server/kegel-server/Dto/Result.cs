@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KegelApp.Server.Database.Entities;
+using KegelApp.Server.Domain.Entities;
 
 namespace kegel_server.Dto
 {

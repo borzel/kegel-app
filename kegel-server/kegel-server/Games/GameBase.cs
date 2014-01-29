@@ -1,11 +1,13 @@
-﻿using KegelApp.Server.Database;
-using KegelApp.Server.Database.Entities;
-using NHibernate;
-using kegel_server.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using kegel_server.Dto;
+using KegelApp.Server.Database;
+using KegelApp.Server.Domain;
+using KegelApp.Server.Domain.Entities;
+using NHibernate;
 
 namespace kegel_server.Games
 {

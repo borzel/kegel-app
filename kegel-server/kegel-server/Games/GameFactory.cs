@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using KegelApp.Server.Database;
-using KegelApp.Server.Database.Entities;
+using KegelApp.Server.Domain;
+using KegelApp.Server.Domain.Entities;
 
 namespace kegel_server.Games
 {

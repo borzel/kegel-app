@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KegelApp.Server.Database;
-using KegelApp.Server.Database.Entities;
+using KegelApp.Server.Domain.Entities;
 using NHibernate;
 using kegel_server.Dto;
 using kegel_server.Games;
+using Nancy.Hosting.Self;
 
 namespace kegel_server
 {
@@ -26,12 +27,28 @@ namespace kegel_server
 		}
 		#endregion
 
+        private static readonly string AppName = "KegelServer";
+        const string url = "http://localhost:8008";
+
+
 	    private ISession session;
 
 		private Server ()
 		{
 		    session = KegelSessionFactory.Instance.GetSession();
 		}
+
+        public void Start()
+        {
+            Console.WriteLine("Start Kegelserver...");
+
+            // Admin cmd -> netsh http add urlacl url=http://+:80/ user=Jeder
+            Uri serverUri = new Uri(url);
+            var nancyHost = new NancyHost(serverUri);
+            nancyHost.Start();
+
+            Console.WriteLine("{0} gestartet {1} auf {2}", AppName, DateTime.Now, serverUri);
+        }
 
         public void Save()
         {

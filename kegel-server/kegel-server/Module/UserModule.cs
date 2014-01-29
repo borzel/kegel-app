@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using KegelApp.Server.Database;
-using KegelApp.Server.Database.Entities;
+
 using kegel_server.Dto;
+using KegelApp.Server.Database;
+using KegelApp.Server.Domain;
+using KegelApp.Server.Domain.Entities;
 using Nancy;
 
 namespace kegel_server.Module

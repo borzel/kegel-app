@@ -10,7 +10,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace KegelApp.Server.Database.Entities
+namespace KegelApp.Server.Domain.Entities
 {
 	[Serializable]
 	public class Move

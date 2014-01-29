@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KegelApp.Server.Database.Entities
+namespace KegelApp.Server.Domain.Entities
 {
     /// <summary>
     /// Description of Spiel.

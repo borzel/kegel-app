@@ -76,21 +76,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameEnum.cs" />
     <Compile Include="KegelSessionFactory.cs" />
-    <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\Move.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\Shot.cs" />
     <Compile Include="Mappings\GameMap.cs" />
     <Compile Include="Mappings\MoveMap.cs" />
     <Compile Include="Mappings\ShotMap.cs" />
     <Compile Include="Mappings\UserMap.cs" />
-    <Compile Include="SexEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Diagrams\kegeldomain.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +93,12 @@
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KegelApp.Server.Domain\KegelApp.Server.Domain.csproj">
+      <Project>{2935B0C0-3A10-40CF-832B-8FAD1E88731E}</Project>
+      <Name>KegelApp.Server.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
