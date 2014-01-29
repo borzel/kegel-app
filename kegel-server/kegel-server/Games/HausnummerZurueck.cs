@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using kegel_server.Dto;
 using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 

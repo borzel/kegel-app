@@ -13,13 +13,74 @@
 	
 	@If.Spiel
 		<h1>Spiel: @!Model.Spielname</h1>
-		<legend>@!Model.Erklaerung</legend><br/>
-		N&auml;chster Spieler: @!Model.Spieler<br/>
+		<legend>@!Model.Erklaerung</legend>
+
+		<h2>Aktueller Spieler: @!Model.Spieler</h2>
 	
-		<form action="/game/wurf" method="POST">
-			Punkte: <input type="text" name="punktzahl" autofocus/>
-			<input type="submit" value="Eingeben"/>
+		<script type="text/javascript">
+			function points(erg){
+			  document.wurfeingabe.punktzahl.value = erg;
+			  document.wurfeingabe.submit();
+			}
+		</script>
+
+		<form name="wurfeingabe" action="/game/wurf" method="POST">
+			Punkte: <input type="hidden" name="punktzahl"/>
+			<input type="button" value="Ratte" onclick="points('R');"/>
+			<input type="submit" value="0" onClick="points(0);"/>
+			<input type="submit" value="1" onClick="points(1);"/>
+			<input type="submit" value="2" onClick="points(2);"/>
+			<input type="submit" value="3" onClick="points(3);"/>
+			<input type="submit" value="4" onClick="points(4);"/>
+			<input type="submit" value="5" onClick="points(5);"/>
+			<input type="submit" value="6" onClick="points(6);"/>
+			<input type="submit" value="7" onClick="points(7);"/>
+			<input type="submit" value="8" onClick="points(8);"/>
+			<input type="submit" value="9" onClick="points(9);"/>
+			<input type="submit" value="Ung&uuml;ltig" onClick="points('U');"/>
 		</form>
+
+
+		
+
+
+		<h2>Ergebniss (zur Zeit)</h2>
+
+		<table border="1">
+        <tr>
+            <th>Name</th>
+            <th>W&uuml;rfe</th>
+            <th>Punkte</th>
+            <th>Platz (Gesamt)</th>
+            <th>Platz (M&auml;nner)</th>
+            <th>Platz (Frauen)</th>
+        </tr>
+        
+        @Each.Results
+            <tr>
+                <td align="center">@!Current.Spieler</td>
+                <td align ="center">@!Current.Wuerfe</td>
+                <td align="center">@Current.Punktzahl</td>
+                <td align="center">@Current.PlatzGesamt</td>
+                <td align="center">@Current.PlatzMaenner</td>
+                <td align="center">@Current.PlatzFrauen</td>
+            </tr>
+        @EndEach
+			<tr>
+				<td colspan=6><b>N&auml;chste Spieler:</b></td>
+			</tr>
+		@Each.UsersToPlay
+			<tr>
+				<td align="center">@!Current.Name</td>
+				<td align="center">-</td>
+				<td align="center">0</td>
+				<td align="center">-</td>
+				<td align="center">-</td>
+				<td align="center">-</td>
+			</tr>
+		@EndEach
+    </table> 
+
 	@EndIf
 	
 @EndSection

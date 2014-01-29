@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using kegel_server.Dto;
 using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;
@@ -27,6 +25,7 @@ namespace kegel_server.Games
             spielDaten = new Game();
             spielDaten.Name = GetName();
             spielDaten.GameId = GetGameId();
+            spielDaten.Description = GetErklaerung();
 
             // Jeder ist einmal dran
             spielDaten.AddUsers(users);
@@ -36,7 +35,7 @@ namespace kegel_server.Games
 
             // Speichern
             session.SaveOrUpdate(spielDaten);
-            session.Flush();
+            Server.Instance.Save();
         }
 
         public virtual void SetWurf(ISession session, Shot wurf)
@@ -70,7 +69,7 @@ namespace kegel_server.Games
             }
 
             session.SaveOrUpdate(spielDaten);
-            session.Flush();
+            Server.Instance.Save();
         }
 
         private void NeuerSpielzug()

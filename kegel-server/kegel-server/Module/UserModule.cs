@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using kegel_server.Dto;
 using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;

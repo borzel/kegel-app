@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using KegelApp.Server.Database;
 using KegelApp.Server.Domain.Entities;
 using NHibernate;
-using kegel_server.Dto;
 using kegel_server.Games;
 using Nancy.Hosting.Self;
+using System.Threading;
 
 namespace kegel_server
 {
-	public  class Server
+	public class Server
 	{
 		#region Singleton
 		private static Server instance;
@@ -44,10 +44,14 @@ namespace kegel_server
 
             // Admin cmd -> netsh http add urlacl url=http://+:80/ user=Jeder
             Uri serverUri = new Uri(url);
-            var nancyHost = new NancyHost(serverUri);
+            HostConfiguration hostConfig = new HostConfiguration();
+            hostConfig.UrlReservations.CreateAutomatically = true;
+            hostConfig.UrlReservations.User = "Jeder";
+            hostConfig.RewriteLocalhost = true;
+            var nancyHost = new NancyHost(hostConfig, serverUri);
             nancyHost.Start();
 
-            Console.WriteLine("{0} gestartet {1} auf {2}", AppName, DateTime.Now, serverUri);
+            Console.WriteLine("{0} gestartet {1}", AppName, DateTime.Now);
         }
 
         public void Save()
@@ -70,11 +74,13 @@ namespace kegel_server
 		public void AddUser (User newUser)
 		{
             session.SaveOrUpdate(newUser);
+            Save();
 		}
 
 		public void RemoveUser (User oldUser)
 		{
 		    session.SaveOrUpdate(GetUsers().Remove(oldUser));
+            Save();
 		}
 		#endregion
 

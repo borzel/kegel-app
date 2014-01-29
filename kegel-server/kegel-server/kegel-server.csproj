@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationBootstrapper.cs" />
-    <Compile Include="Dto\Result.cs" />
     <Compile Include="Games\GameFactory.cs" />
     <Compile Include="Games\Hausnummer.cs" />
     <Compile Include="Games\HausnummerVor.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Nancy.Diagnostics;
 using Nancy;
+using Nancy.Hosting.Self;
 
 namespace kegel_server
 {
@@ -12,6 +13,7 @@ namespace kegel_server
 		protected override void ConfigureConventions (Nancy.Conventions.NancyConventions nancyConventions)
 		{
 			nancyConventions.StaticContentsConventions.Add (Nancy.Conventions.StaticContentConventionBuilder.AddDirectory ("Static", @"Static"));
+            
 			base.ConfigureConventions (nancyConventions);
 		}
 

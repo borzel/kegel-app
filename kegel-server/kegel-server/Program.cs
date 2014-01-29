@@ -8,8 +8,10 @@ namespace kegel_server
         static void Main(string[] args)
         {
             Server.Instance.Start();
-            Console.ReadLine();
-            Server.Instance.Save();
+            while(true)
+            {
+                Console.ReadLine();
+            };
         }
     }
 }

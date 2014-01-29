@@ -29,8 +29,8 @@ namespace KegelApp.Server.Database
         }
         #endregion
 
-        private  ISession session;
-        private  ISessionFactory sessionFactory;
+        private ISession session;
+        private ISessionFactory sessionFactory;
 
         public void CreateKegelSessionFactory()
         {
@@ -50,9 +50,11 @@ namespace KegelApp.Server.Database
         {
             return Fluently.Configure()
                            .Database(SQLiteConfiguration.Standard
-                           .ShowSql()
-                           .UsingFile("kegeldata.db")
-                           )
+#if DEBUG
+                           .ShowSql().FormatSql()
+#endif
+                           .UsingFile("kegeldata.db"))
+                           .Cache(c => c.UseSecondLevelCache())
                            .Mappings(m => m.FluentMappings.AddFromAssemblyOf<KegelSessionFactory>())
                            .ExposeConfiguration(cfg => new SchemaUpdate(cfg).Execute(false, true))
                            .BuildSessionFactory();

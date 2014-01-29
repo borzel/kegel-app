@@ -8,12 +8,12 @@
  */
 using System;
 using System.Linq;
-using kegel_server.Dto;
 using kegel_server.Games;
 using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;
 using Nancy;
+using System.Collections.Generic;
 
 namespace kegel_server.Module
 {
@@ -52,14 +52,17 @@ namespace kegel_server.Module
 				} else if (erg == "U") {
                     wurf.Value = 0;
 					wurf.Fault = true;
-				} else {
+				} else if (erg != "") {
                     wurf.Value = int.Parse(erg);
-				}
+				} else
+                {
+                    return HttpStatusCode.InternalServerError;
+                }
 
                 GameBase spiel = GameFactory.CreateGame(Server.Instance.CurrentGame().GameId);
                 spiel.SetWurf(Server.Instance.GetSession(), wurf);
                 
-                Server.Instance.Save();
+                //Server.Instance.Save();
 				
 				return Response.AsRedirect (MOUDL_BASEURL);
 			};
@@ -73,6 +76,8 @@ namespace kegel_server.Module
                     model.Erklaerung = Server.Instance.CurrentGame().Description;
                     model.Spielname = Server.Instance.CurrentGame().Name;
 					model.Spiel = true;
+                    model.Results = ResultCalculator.GetResult(Server.Instance.CurrentGame());
+                    model.UsersToPlay = Server.Instance.CurrentGame().UsersToPlay.ToList();
 				}
 				
 				return View ["game", model];
@@ -83,12 +88,11 @@ namespace kegel_server.Module
 	public class GameModel
 	{
 		public string Spieler{ get; set; }
-
 		public string Erklaerung { get; set; }
-
 		public string Spielname { get; set; }
-
 		public bool Spiel { get; set; }
+        public List<ResultData> Results { get; set; }
+        public List<User> UsersToPlay { get; set; }
 		
 		public GameModel ()
 		{
