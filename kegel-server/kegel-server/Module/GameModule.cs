@@ -31,7 +31,7 @@ namespace kegel_server.Module
 				string spielToStart = Request.Form ["spiel"];
 
                 // TODO spieltoStart beachten
-                GameBase spiel = GameFactory.CreateGame(GameEnum.HausnummerVor);
+                GameBase spiel = GameFactory.CreateGame((GameEnum)Enum.Parse(typeof(GameEnum), spielToStart));
                 
 				if (Server.Instance.GetUsers().Any()) 
 				{
@@ -93,6 +93,7 @@ namespace kegel_server.Module
 		public bool Spiel { get; set; }
         public List<ResultData> Results { get; set; }
         public List<User> UsersToPlay { get; set; }
+        public List<string> Games { get; set; }
 		
 		public GameModel ()
 		{
@@ -100,6 +101,7 @@ namespace kegel_server.Module
 			Spieler = "";
 			Spielname = "Es läuft gerade kein Spiel";
 			Erklaerung = "nix los hier :-(";
+            Games = Enum.GetNames(typeof(GameEnum)).ToList();
 		}
 	}
 }

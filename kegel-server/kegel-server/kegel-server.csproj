@@ -117,6 +117,7 @@
     <Compile Include="Games\HausnummerVor.cs" />
     <Compile Include="Games\HausnummerZurueck.cs" />
     <Compile Include="Games\GameBase.cs" />
+    <Compile Include="Games\ZehnVolle.cs" />
     <Compile Include="Models\PlantModel.cs" />
     <Compile Include="Models\PlantsModel.cs" />
     <Compile Include="Module\DebugModule.cs" />

@@ -23,6 +23,9 @@ namespace kegel_server.Games
                 case GameEnum.HausnummerZurueck:
                     spiel = new HausnummerZurueck();
                     break;
+                case GameEnum.ZehnVolle:
+                    spiel = new ZehnVolle();
+                    break;
                 default:
                     spiel = null;
                     break;

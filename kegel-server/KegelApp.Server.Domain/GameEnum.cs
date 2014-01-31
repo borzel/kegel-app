@@ -4,5 +4,6 @@
     {
         HausnummerVor,
         HausnummerZurueck,
+        ZehnVolle,
     }
 }
