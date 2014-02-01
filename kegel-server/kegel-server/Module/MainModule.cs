@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nancy;
 
-namespace kegel_server.Module
+namespace KegelApp.Server.Module
 {
 	public class MainModule : NancyModule
 	{
@@ -12,9 +12,9 @@ namespace kegel_server.Module
 			{
 				MainModel model = new MainModel();
 				model.Info = new List<MainInfo>();
-				model.Info.Add(new MainInfo{ Key = "Spieler", Value = Server.Instance.GetUsers().Count.ToString()});
-				model.Info.Add(new MainInfo{ Key = "Aktuelles Spiel", Value = Server.Instance.CurrentGame()==null ? "Zur Zeit läuft kein Spiel": Server.Instance.CurrentGame().Name});
-				model.Info.Add(new MainInfo{ Key = "Gespielte Spiele", Value = Server.Instance.GetGames().Count.ToString()});
+				model.Info.Add(new MainInfo{ Key = "Spieler", Value = GameService.GetUserCount().ToString()});
+                model.Info.Add(new MainInfo { Key = "Aktuelles Spiel", Value = GameService.CurrentGame() == null ? "Zur Zeit läuft kein Spiel" : GameService.CurrentGameName() });
+                model.Info.Add(new MainInfo { Key = "Gespielte Spiele", Value = GameService.GetGameCount().ToString() });
 				
 				return View["index.html", model];
 			};

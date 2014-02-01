@@ -8,6 +8,8 @@ using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;
 using Nancy;
+using KegelApp.Server;
+using KegelApp.Server.Domain.Logic;
 
 namespace kegel_server.Module
 {
@@ -19,19 +21,20 @@ namespace kegel_server.Module
 
             Get["/"] = _ =>
             {
-                return View["result", Server.Instance.GetGames()];
+                return View["result", GameService.GetAllGames()];
             };
 
             Get["/{spiel_id}"] = _ =>
             {
                 ResultModel model = new ResultModel();
 
-                Game gameToAsk = Server.Instance.GetGames().FirstOrDefault(g => g.Id == _.spiel_id);
+
+                GameBase gameToAsk = GameService.FindGameById(Int32.Parse(_.spiel_id));
                 if (gameToAsk == null)
                     return HttpStatusCode.InternalServerError;
 
-                model.Spielname = gameToAsk.Name;
-                model.Results = ResultCalculator.GetResult(gameToAsk);
+                model.Spielname = gameToAsk.GetName();
+                model.Results = GameService.GetGameResult(gameToAsk);
                 
                 return View["resultdetail", model];
             };

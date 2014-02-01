@@ -29,7 +29,7 @@ namespace KegelApp.Server.Domain.Entities
 
         public virtual void AddShot(Shot shot)
         {
-            shot.InMove = this;
+            //shot.InMove = this;
             Shots.Add(shot);
         }
 	}

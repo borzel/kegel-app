@@ -14,7 +14,7 @@ namespace KegelApp.Server.Database.Mappings
             Id(x => x.Id);
             Map(x => x.Score);
 
-            References(x => x.InGame);
+            //References(x => x.InGame);
             References(x => x.Player);
 
             HasMany(x => x.Shots).Cascade.All();

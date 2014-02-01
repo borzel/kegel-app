@@ -8,6 +8,7 @@ using FluentNHibernate.Cfg.Db;
 using KegelApp.Server.Domain.Entities;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
+using System.Data;
 
 namespace KegelApp.Server.Database
 {
@@ -29,20 +30,17 @@ namespace KegelApp.Server.Database
         }
         #endregion
 
-        private ISession session;
         private ISessionFactory sessionFactory;
 
-        public void CreateKegelSessionFactory()
+        private KegelSessionFactory()
         {
             sessionFactory = CreateSessionFactory();
-            session = sessionFactory.OpenSession();
         }
 
         public ISession GetSession()
         {
-            if (session == null)
-                CreateKegelSessionFactory();
-
+            ISession session = sessionFactory.OpenSession();
+            //session.BeginTransaction();
             return session;
         }
 

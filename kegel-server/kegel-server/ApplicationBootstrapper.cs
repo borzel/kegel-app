@@ -6,7 +6,7 @@ using Nancy.Diagnostics;
 using Nancy;
 using Nancy.Hosting.Self;
 
-namespace kegel_server
+namespace KegelApp.Server
 {
 	public class ApplicationBootstrapper : Nancy.DefaultNancyBootstrapper
 	{

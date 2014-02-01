@@ -8,12 +8,13 @@
  */
 using System;
 using System.Linq;
-using kegel_server.Games;
 using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;
 using Nancy;
 using System.Collections.Generic;
+using KegelApp.Server.Domain.Logic;
+using KegelApp.Server;
 
 namespace kegel_server.Module
 {
@@ -28,56 +29,28 @@ namespace kegel_server.Module
 		{
 			Post ["/start"] = _ =>
 			{
-				string spielToStart = Request.Form ["spiel"];
-
-                // TODO spieltoStart beachten
-                GameBase spiel = GameFactory.CreateGame((GameEnum)Enum.Parse(typeof(GameEnum), spielToStart));
-                
-				if (Server.Instance.GetUsers().Any()) 
-				{
-					spiel.Start(Server.Instance.GetSession(), Server.Instance.GetUsers());
-				}
-
+				GameService.StartGame(Request.Form ["spiel"]);
 				return Response.AsRedirect (MOUDL_BASEURL);
 			};
 			
 			Post ["/wurf"] = _ =>
 			{
-                Shot wurf = new Shot();
-				
-				string erg = Request.Form ["punktzahl"];
-				if (erg == "R") {
-					wurf.Value = 0;
-					wurf.NullShot = true;
-				} else if (erg == "U") {
-                    wurf.Value = 0;
-					wurf.Fault = true;
-				} else if (erg != "") {
-                    wurf.Value = int.Parse(erg);
-				} else
-                {
-                    return HttpStatusCode.InternalServerError;
-                }
-
-                GameBase spiel = GameFactory.CreateGame(Server.Instance.CurrentGame().GameId);
-                spiel.SetWurf(Server.Instance.GetSession(), wurf);
-                
-                //Server.Instance.Save();
-				
+                GameService.AddShot(Request.Form ["punktzahl"]);
 				return Response.AsRedirect (MOUDL_BASEURL);
 			};
 			
 			Get ["/"] = _ =>
 			{
 				GameModel model = new GameModel ();
-				
-				if (Server.Instance.CurrentGame() != null && !Server.Instance.CurrentGame().Finished) {
-					model.Spieler = Server.Instance.CurrentGame().CurrentUser.Name;
-                    model.Erklaerung = Server.Instance.CurrentGame().Description;
-                    model.Spielname = Server.Instance.CurrentGame().Name;
+
+                if (GameService.CurrentGame() != null && !GameService.CurrentGameIsFinished())
+                {
+                    model.Spieler = GameService.CurrentUserNameOfCurrentGame();
+                    model.Erklaerung = GameService.CurrentGame().GetErklaerung();
+                    model.Spielname = GameService.CurrentGameName();
 					model.Spiel = true;
-                    model.Results = ResultCalculator.GetResult(Server.Instance.CurrentGame());
-                    model.UsersToPlay = Server.Instance.CurrentGame().UsersToPlay.ToList();
+                    model.Results = ResultCalculator.GetResult(GameService.CurrentGame().GameData);
+                    model.UsersToPlay = GameService.CurrentGame().GameData.UsersToPlay.ToList();
 				}
 				
 				return View ["game", model];

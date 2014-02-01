@@ -10,6 +10,7 @@ using KegelApp.Server.Database;
 using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;
 using Nancy;
+using KegelApp.Server;
 
 namespace kegel_server.Module
 {
@@ -21,7 +22,7 @@ namespace kegel_server.Module
         {
             Get ["/"] = _ => 
             {
-                return View ["User.html", Server.Instance.GetUsers().OrderBy(x => x.Name)];
+                return View ["User.html", GameService.GetUsers().OrderBy(x => x.Name)];
             };
 
             //Post ["/edit"] = _ =>
@@ -79,7 +80,7 @@ namespace kegel_server.Module
                 if (!Enum.TryParse<SexEnum>(Request.Form["sex"], out sex))
                     sex = SexEnum.Man;
 
-                if (Server.Instance.GetUsers().Any(x => x.Name == newUsername))
+                if (GameService.ExistsUser(x => x.Name == newUsername))
                 {
                     return "Spieler exisitert bereits";
                 }
@@ -90,7 +91,7 @@ namespace kegel_server.Module
                         Name = newUsername,
                         Sex = sex
                     };
-                    Server.Instance.AddUser(u);
+                    GameService.AddUser(u);
 
                     return Response.AsRedirect(MODULE_BASEURL);
                 }

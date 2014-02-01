@@ -16,7 +16,7 @@ namespace KegelApp.Server.Database.Mappings
             Map(x => x.NullShot);
             Map(x => x.Value);
             
-            References(x => x.InMove);
+           // References(x => x.InMove);
         }
     }
 }

@@ -19,6 +19,6 @@ namespace KegelApp.Server.Domain.Entities
 		public virtual bool Fault {get; set;}
 		public virtual int Value {get; set;}
 
-	    public virtual Move InMove { get; set; }
+	   // public virtual Move InMove { get; set; }
 	}
 }

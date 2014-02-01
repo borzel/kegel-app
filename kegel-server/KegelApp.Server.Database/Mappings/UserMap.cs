@@ -14,15 +14,6 @@ namespace KegelApp.Server.Database.Mappings
             Id(x => x.Id);
             Map(x => x.Name);
             Map(x => x.Sex);
-
-            HasMany(x => x.Moves)
-                .Inverse()
-                .Cascade.All();
-
-            HasManyToMany(x => x.GamesToPlay)
-                .Cascade.All()
-                .Inverse()
-                .Table("GameUser");
         }
     }
 }
