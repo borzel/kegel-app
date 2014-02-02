@@ -1,4 +1,4 @@
-﻿using kegel_server.Models;
+﻿using KegelApp.Ipc.Models;
 using Nancy;
 using System;
 using System.Collections.Generic;

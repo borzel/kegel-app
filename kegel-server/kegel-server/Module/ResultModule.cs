@@ -10,8 +10,9 @@ using KegelApp.Server.Domain.Entities;
 using Nancy;
 using KegelApp.Server;
 using KegelApp.Server.Domain.Logic;
+using KegelApp.Ipc.Models;
 
-namespace kegel_server.Module
+namespace KegelApp.Server.Module
 {
     public class ResultModule : NancyModule
     {
@@ -41,17 +42,7 @@ namespace kegel_server.Module
         }
     }
 
-    public class ResultModel
-    {
-        public ResultModel()
-        {
-            Results = new List<ResultData>();
-        }
-
-        public List<ResultData> Results { get; set; }
-        public String Spielname { get; set; }
-        public int Max { get; set; }
-    }
+    
 
 
 }

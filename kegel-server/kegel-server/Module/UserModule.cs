@@ -11,6 +11,7 @@ using KegelApp.Server.Domain;
 using KegelApp.Server.Domain.Entities;
 using Nancy;
 using KegelApp.Server;
+using KegelApp.Ipc;
 
 namespace kegel_server.Module
 {

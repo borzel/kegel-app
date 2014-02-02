@@ -44,7 +44,6 @@
     <Compile Include="Entities\Move.cs" />
     <Compile Include="Entities\Shot.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="GameEnum.cs" />
     <Compile Include="Logic\GameBase.cs" />
     <Compile Include="Logic\Hausnummer.cs" />
     <Compile Include="Logic\HausnummerVor.cs" />
@@ -52,10 +51,13 @@
     <Compile Include="Logic\ZehnVolle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logic\ResultCalculator.cs" />
-    <Compile Include="Entities\ResultData.cs" />
-    <Compile Include="SexEnum.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\KegelApp.Ipc\KegelApp.Ipc.csproj">
+      <Project>{c1774af7-9578-47ff-8d3b-19e850f23fff}</Project>
+      <Name>KegelApp.Ipc</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Diagrams\kegeldomain.cd" />
   </ItemGroup>

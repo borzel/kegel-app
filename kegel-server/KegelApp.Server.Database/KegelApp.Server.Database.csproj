@@ -95,6 +95,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KegelApp.Ipc\KegelApp.Ipc.csproj">
+      <Project>{c1774af7-9578-47ff-8d3b-19e850f23fff}</Project>
+      <Name>KegelApp.Ipc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KegelApp.Server.Domain\KegelApp.Server.Domain.csproj">
       <Project>{2935B0C0-3A10-40CF-832B-8FAD1E88731E}</Project>
       <Name>KegelApp.Server.Domain</Name>

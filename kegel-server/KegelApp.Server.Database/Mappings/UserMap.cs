@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FluentNHibernate.Mapping;
 using KegelApp.Server.Domain.Entities;
+using KegelApp.Ipc;
 
 namespace KegelApp.Server.Database.Mappings
 {

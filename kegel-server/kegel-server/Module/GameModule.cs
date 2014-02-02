@@ -15,8 +15,10 @@ using Nancy;
 using System.Collections.Generic;
 using KegelApp.Server.Domain.Logic;
 using KegelApp.Server;
+using KegelApp.Ipc.Models;
+using KegelApp.Ipc.Data;
 
-namespace kegel_server.Module
+namespace KegelApp.Server.Module
 {
 	/// <summary>
 	/// Description of GameModule.
@@ -50,7 +52,7 @@ namespace kegel_server.Module
                     model.Spielname = GameService.CurrentGameName();
 					model.Spiel = true;
                     model.Results = ResultCalculator.GetResult(GameService.CurrentGame().GameData);
-                    model.UsersToPlay = GameService.CurrentGame().GameData.UsersToPlay.ToList();
+                    model.UsersToPlay = GameService.CurrentGame().GameData.UsersToPlay.Select(u=> new UserData { Name = u.Name, Id = u.Id, Sex = u.Sex }).ToList();
 				}
 				
 				return View ["game", model];
@@ -58,23 +60,5 @@ namespace kegel_server.Module
 		}
 	}
 	
-	public class GameModel
-	{
-		public string Spieler{ get; set; }
-		public string Erklaerung { get; set; }
-		public string Spielname { get; set; }
-		public bool Spiel { get; set; }
-        public List<ResultData> Results { get; set; }
-        public List<User> UsersToPlay { get; set; }
-        public List<string> Games { get; set; }
-		
-		public GameModel ()
-		{
-			Spiel = false;
-			Spieler = "";
-			Spielname = "Es läuft gerade kein Spiel";
-			Erklaerung = "nix los hier :-(";
-            Games = Enum.GetNames(typeof(GameEnum)).ToList();
-		}
-	}
+	
 }

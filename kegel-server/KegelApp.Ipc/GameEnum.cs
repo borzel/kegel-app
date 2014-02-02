@@ -1,4 +1,4 @@
-﻿namespace KegelApp.Server.Domain
+﻿namespace KegelApp.Ipc
 {
     public enum GameEnum
     {

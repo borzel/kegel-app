@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KegelApp.Ipc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
