@@ -58,6 +58,19 @@ namespace KegelApp.Server
             session.Flush();
         }
 
+        public static void EditUser(User changedUser)
+        {
+            User u = GetUsers(user => user.Id == changedUser.Id).FirstOrDefault();
+            if (u != null)
+            {
+                u.Name = changedUser.Name;
+                u.Sex = changedUser.Sex;
+
+                session.SaveOrUpdate(u);
+                session.Flush();
+            }
+        }
+
         public static string CurrentUserNameOfCurrentGame()
         {
             return session.Query<Game>().OrderByDescending(game => game.Id).FirstOrDefault()

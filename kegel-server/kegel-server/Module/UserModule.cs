@@ -12,19 +12,39 @@ using KegelApp.Server.Domain.Entities;
 using Nancy;
 using KegelApp.Server;
 using KegelApp.Ipc;
+using Newtonsoft.Json;
+using KegelApp.Ipc.Data;
+using System.IO;
 
 namespace kegel_server.Module
 {
     public class UserModule : NancyModule
     {
-		const string MODULE_BASEURL = "/user";
+        const string MODULE_BASEURL = "/user";
 
-        public UserModule() : base(MODULE_BASEURL)
+        public UserModule()
+            : base(MODULE_BASEURL)
         {
-            Get ["/"] = _ => 
+            Get["/"] = _ =>
             {
-                return View ["User.html", GameService.GetUsers().OrderBy(x => x.Name)];
+                return View["User.html", GameService.GetUsers().OrderBy(x => x.Name)];
             };
+
+            Get["/list"] = _ =>
+                {
+                    return Response.AsJson(GameService.GetUsers().OrderBy(x => x.Name));
+                };
+
+            Put["/save"] = _ =>
+                {
+                    StreamReader r = new StreamReader(Request.Body);
+
+                    User user = JsonConvert.DeserializeObject<User>(r.ReadToEnd());
+                    GameService.EditUser(user);
+                    
+
+                    return HttpStatusCode.OK;
+                };
 
             //Post ["/edit"] = _ =>
             //{
@@ -57,11 +77,11 @@ namespace kegel_server.Module
 
             //    return HttpStatusCode.InternalServerError;
             //};
-			
+
             //Post ["/delete"] = _ =>
             //{
             //    Guid userId = Request.Form ["id"];
-				
+
             //    UserData userToDelete = Server.Instance.GetUsers().Where(x => x.Id == userId).FirstOrDefault();
             //    if (userToDelete != null)
             //    {
